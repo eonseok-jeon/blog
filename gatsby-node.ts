@@ -1,10 +1,10 @@
 const path = require('path');
 
-exports.onCreateWebpackConfig = ({ actions }) => {
+exports.onCreateWebpackConfig = ({ actions }: { actions: any }) => {
   actions.setWebpackConfig({
     resolve: {
       alias: {
-        '@shared': path.resolve(__dirname, 'src/shared'),
+        '@styles': path.resolve(__dirname, 'src/shared/styles'),
       },
     },
   });
