@@ -31,7 +31,9 @@
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-react-app": "^7.0.1",
+    "gatsby-plugin-react-svg": "^3.3.0",
     "prettier": "^3.2.5",
+    "svg-react-loader": "^0.4.6",
     "typescript": "^5.3.3"
   }
 }

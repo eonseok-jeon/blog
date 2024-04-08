@@ -1,12 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 import type { HeadFC, PageProps } from 'gatsby';
+import Layout from '@components/layout/Layout';
 import { Global } from '@emotion/react';
-import reset from '@styles/reset';
+import global from '@styles/global';
 
 const IndexPage: React.FC<PageProps> = () => {
   return (
     <>
-      <Global styles={reset} />
+      <Global styles={global} />
+      <Layout>123</Layout>
     </>
   );
 };
