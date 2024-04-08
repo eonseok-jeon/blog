@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NAV_ITEMS } from '@constants/NAV_ITEMS';
 import styled from '@emotion/styled';
 import { Link } from 'gatsby';
 import { useState } from 'react';
+import { DarkModeContext } from '@contexts/darkModeContext';
 
 interface SubNavItemsProps {
   isSubItemsOpen: string;
@@ -11,12 +12,14 @@ interface SubNavItemsProps {
 }
 
 function SubNavItems({ isSubItemsOpen, label, subItems }: SubNavItemsProps) {
+  const isDark = useContext(DarkModeContext);
+
   return (
     <>
       <Wrapper>
         {isSubItemsOpen === label &&
           subItems?.map((subItem) => (
-            <SubNavItem data-hover={subItem}>
+            <SubNavItem isDark={isDark} data-hover={subItem}>
               <Link to="#">{subItem}</Link>
             </SubNavItem>
           ))}
@@ -69,7 +72,7 @@ const NavItem = styled.li`
     width: 0%;
     height: 0.2rem;
     content: '';
-    background: #000;
+    background: currentColor;
     transition: all 0.3s;
   }
 
@@ -103,19 +106,19 @@ const Wrapper = styled.ol`
   border-radius: 0.5rem;
 `;
 
-const SubNavItem = styled.li`
+const SubNavItem = styled.li<{ isDark: boolean }>`
   position: relative;
   padding: 0.5rem 1.2rem 0.5rem 0.5rem;
-  color: #000;
+  color: currentColor;
   border-radius: 0.5rem;
   text-shadow: none;
-  word-break: g keep-all;
+  word-break: keep-all;
   transition: all 0.3s ease;
   cursor: pointer;
 
   &:hover {
-    color: #999;
-    background-color: #000;
+    color: #888;
+    background-color: ${({ isDark }) => (isDark ? '#fff' : '#121212')};
   }
 
   &::before {
@@ -127,11 +130,11 @@ const SubNavItem = styled.li`
     opacity: 0;
     padding: 0.5rem 1.2rem 0.5rem 0.5rem;
     content: attr(data-hover);
-    color: #fff;
+    color: ${({ isDark }) => (isDark ? '#000' : '#fff')};
 
-    -webkit-transition: max-width 0.8s ease-out;
-    -moz-transition: max-width 0.8s ease-out;
-    transition: max-width 0.8s ease-out;
+    -webkit-transition: max-width 0.7s ease-out;
+    -moz-transition: max-width 0.7s ease-out;
+    transition: max-width 0.7s ease-out;
   }
 
   &:hover::before,
