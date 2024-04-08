@@ -1,7 +1,7 @@
-import { css } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 import reset from './reset';
 
-const global = css`
+const global = (theme: Theme) => css`
   ${reset}
 
   * {
@@ -24,6 +24,8 @@ const global = css`
     line-height: 1.2;
     font-weight: 400;
     letter-spacing: 1;
+    color: ${theme.text};
+    background-color: ${theme.background};
   }
 `;
 
