@@ -31,7 +31,7 @@ export default function Posts(data: PostsProps) {
   return (
     <FeatureContainer id="post-preview-list">
       <MainTitle>My Posts</MainTitle>
-      <SubTitle>Total (12)</SubTitle>
+      <SubTitle>Total ({nodes.length})</SubTitle>
       <PostDataList>
         {nodes.map(({ id, frontmatter }) => (
           <Link to={`/${frontmatter.url}`} key={id}>
