@@ -37,6 +37,7 @@ export const query = graphql`
           subTitle
           date(formatString: "MMMM DD, YYYY")
           tag
+          url
         }
         id
       }

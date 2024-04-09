@@ -11,6 +11,7 @@ interface PostsProps {
           subTitle: string;
           date: string;
           tag: string;
+          url: string;
         };
         id: string;
       }[];
@@ -30,7 +31,7 @@ export default function Posts(data: PostsProps) {
       <SubTitle>Total (12)</SubTitle>
       <PostDataList>
         {nodes.map(({ id, frontmatter }) => (
-          <Link to="#" key={id}>
+          <Link to={`/${frontmatter.url}`} key={id}>
             <PostPreview
               mainTitle={frontmatter.title}
               subTitle={frontmatter.subTitle}
