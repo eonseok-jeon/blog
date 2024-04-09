@@ -4,7 +4,7 @@ import { Link } from 'gatsby';
 
 interface PostsProps {
   data: {
-    allMdx: {
+    allMdx?: {
       nodes: {
         frontmatter: {
           title: string;
@@ -20,6 +20,8 @@ interface PostsProps {
 
 /** Posts list */
 export default function Posts(data: PostsProps) {
+  if (!data.data.allMdx) return;
+
   const { nodes } = data.data.allMdx;
 
   return (
