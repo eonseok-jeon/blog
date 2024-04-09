@@ -3,8 +3,8 @@ export const NAV_ITEMS = [
     label: '전체',
   },
   {
-    label: '언어',
-    subItems: ['React', 'JavaScript', 'TypeScript'],
+    label: '코딩',
+    subItems: ['TIL', 'Trouble shooting'],
   },
   {
     label: '일상',
