@@ -38,6 +38,12 @@ export const query = graphql`
           date(formatString: "MMMM DD, YYYY")
           tag
           url
+          thumbnail_alt
+          thumbnail {
+            childImageSharp {
+              gatsbyImageData
+            }
+          }
         }
         id
       }

@@ -16,6 +16,12 @@ export const query = graphql`
       frontmatter {
         title
         date(formatString: "MMMM D, YYYY")
+        thumbnail_alt
+        thumbnail {
+          childImageSharp {
+            gatsbyImageData
+          }
+        }
       }
     }
   }

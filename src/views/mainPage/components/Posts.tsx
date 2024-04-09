@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import PostPreview from './PostPreview';
 import { Link } from 'gatsby';
+import { IGatsbyImageData, getImage } from 'gatsby-plugin-image';
 
 interface PostsProps {
   data: {
@@ -12,6 +13,8 @@ interface PostsProps {
           date: string;
           tag: string;
           url: string;
+          thumbnail: IGatsbyImageData;
+          thumbnail_alt: string;
         };
         id: string;
       }[];
@@ -37,6 +40,8 @@ export default function Posts(data: PostsProps) {
               subTitle={frontmatter.subTitle}
               date={frontmatter.date}
               tag={frontmatter.tag}
+              thumbnail={frontmatter.thumbnail}
+              thumbnailAlt={frontmatter.thumbnail_alt}
             />
           </Link>
         ))}
