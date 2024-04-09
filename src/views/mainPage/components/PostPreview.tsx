@@ -5,17 +5,17 @@ import { DarkModeContext } from '@contexts/darkModeContext';
 
 interface IPostPreviewProps {
   mainTitle: string;
-  tag: string;
-  date: string;
   subTitle: string;
+  date: string;
+  tag: string;
 }
 
 /** Post Preview Card */
 export default function PostPreview({
   mainTitle,
-  tag,
-  date,
   subTitle,
+  date,
+  tag,
 }: IPostPreviewProps) {
   const isDark = useContext(DarkModeContext);
 

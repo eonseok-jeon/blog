@@ -22,6 +22,14 @@ const config: GatsbyConfig = {
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: `contents`,
+        path: `${__dirname}/contents`,
+      },
+    },
+    'gatsby-plugin-mdx',
   ],
 };
 
