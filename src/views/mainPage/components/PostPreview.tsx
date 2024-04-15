@@ -2,12 +2,14 @@ import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import { GatsbyImage, IGatsbyImageData, getImage } from 'gatsby-plugin-image';
 import { DarkModeContext } from '@contexts/darkModeContext';
+import { Link } from 'gatsby';
 
 interface IPostPreviewProps {
   mainTitle: string;
   subTitle: string;
   date: string;
   tag: string;
+  url: string;
   thumbnail: IGatsbyImageData;
   thumbnailAlt: string;
 }
@@ -18,6 +20,7 @@ export default function PostPreview({
   subTitle,
   date,
   tag,
+  url,
   thumbnail,
   thumbnailAlt,
 }: IPostPreviewProps) {
@@ -26,7 +29,7 @@ export default function PostPreview({
 
   return (
     <>
-      <Article>
+      <Article to={`/${url}`}>
         <ImgWrapper isDark={isDark}>
           <GatsbyImage image={image!} alt={thumbnailAlt} />
           <Tag isDark={isDark}>{tag}</Tag>
@@ -41,7 +44,7 @@ export default function PostPreview({
   );
 }
 
-const Article = styled.article`
+const Article = styled(Link)`
   width: 25.6rem;
   height: 25.6rem;
   margin-bottom: 7rem;
