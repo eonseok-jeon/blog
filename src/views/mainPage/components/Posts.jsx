@@ -1,29 +1,8 @@
 import styled from '@emotion/styled';
 import PostPreview from './PostPreview';
-import { Link } from 'gatsby';
-import { IGatsbyImageData } from 'gatsby-plugin-image';
-
-interface PostsProps {
-  data: {
-    allMdx?: {
-      nodes: {
-        frontmatter: {
-          title: string;
-          subTitle: string;
-          date: string;
-          tag: string;
-          url: string;
-          thumbnail: IGatsbyImageData;
-          thumbnail_alt: string;
-        };
-        id: string;
-      }[];
-    };
-  };
-}
 
 /** Posts list */
-export default function Posts(data: PostsProps) {
+export default function Posts(data) {
   if (!data.data.allMdx) return;
 
   const { nodes } = data.data.allMdx;

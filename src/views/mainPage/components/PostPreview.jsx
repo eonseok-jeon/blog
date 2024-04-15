@@ -1,18 +1,8 @@
 import React, { useContext } from 'react';
 import styled from '@emotion/styled';
-import { GatsbyImage, IGatsbyImageData, getImage } from 'gatsby-plugin-image';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { DarkModeContext } from '@contexts/darkModeContext';
 import { Link } from 'gatsby';
-
-interface IPostPreviewProps {
-  mainTitle: string;
-  subTitle: string;
-  date: string;
-  tag: string;
-  url: string;
-  thumbnail: IGatsbyImageData;
-  thumbnailAlt: string;
-}
 
 /** Post Preview Card */
 export default function PostPreview({
@@ -23,7 +13,7 @@ export default function PostPreview({
   url,
   thumbnail,
   thumbnailAlt,
-}: IPostPreviewProps) {
+}) {
   const isDark = useContext(DarkModeContext);
   const image = getImage(thumbnail);
 
@@ -31,7 +21,7 @@ export default function PostPreview({
     <>
       <Article to={`/${url}`}>
         <ImgWrapper isDark={isDark}>
-          <GatsbyImage image={image!} alt={thumbnailAlt} />
+          <GatsbyImage image={image} alt={thumbnailAlt} />
           <Tag isDark={isDark}>{tag}</Tag>
         </ImgWrapper>
         <InfoWrapper>
@@ -59,7 +49,7 @@ const Article = styled(Link)`
   }
 `;
 
-const ImgWrapper = styled.div<{ isDark: boolean }>`
+const ImgWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
@@ -81,7 +71,7 @@ const ImgWrapper = styled.div<{ isDark: boolean }>`
   }
 `;
 
-const Tag = styled.div<{ isDark: boolean }>`
+const Tag = styled.div`
   position: absolute;
   left: 0.8rem;
   bottom: 0.8rem;

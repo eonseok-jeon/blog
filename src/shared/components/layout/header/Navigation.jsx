@@ -5,13 +5,7 @@ import { Link } from 'gatsby';
 import { useState } from 'react';
 import { DarkModeContext } from '@contexts/darkModeContext';
 
-interface SubNavItemsProps {
-  isSubItemsOpen: string;
-  label: string;
-  subItems: string[] | undefined;
-}
-
-function SubNavItems({ isSubItemsOpen, label, subItems }: SubNavItemsProps) {
+function SubNavItems({ isSubItemsOpen, label, subItems }) {
   const isDark = useContext(DarkModeContext);
 
   return (
@@ -106,7 +100,7 @@ const Wrapper = styled.ol`
   border-radius: 0.5rem;
 `;
 
-const SubNavItem = styled.li<{ isDark: boolean }>`
+const SubNavItem = styled.li`
   position: relative;
   padding: 0.5rem 1.2rem 0.5rem 0.5rem;
   color: currentColor;

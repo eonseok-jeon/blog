@@ -1,7 +1,7 @@
 import { graphql, useStaticQuery } from 'gatsby';
 
 /** SEO */
-export default function SEO({ title }: { title: string }) {
+export default function SEO({ title }) {
   const data = useStaticQuery(graphql`
     query {
       site {
