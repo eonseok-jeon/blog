@@ -1,34 +1,34 @@
 import React, { useContext } from 'react';
 import styled from '@emotion/styled';
-import { StaticImage } from 'gatsby-plugin-image';
+import { GatsbyImage, IGatsbyImageData, getImage } from 'gatsby-plugin-image';
 import { DarkModeContext } from '@contexts/darkModeContext';
 
 interface IPostPreviewProps {
   mainTitle: string;
-  tag: string;
-  date: string;
   subTitle: string;
+  date: string;
+  tag: string;
+  thumbnail: IGatsbyImageData;
+  thumbnailAlt: string;
 }
 
 /** Post Preview Card */
 export default function PostPreview({
   mainTitle,
-  tag,
-  date,
   subTitle,
+  date,
+  tag,
+  thumbnail,
+  thumbnailAlt,
 }: IPostPreviewProps) {
   const isDark = useContext(DarkModeContext);
+  const image = getImage(thumbnail);
 
   return (
     <>
       <Article>
-        <ImgWrapper>
-          <StaticImage
-            src="../assets/egg_princess.png"
-            alt="post-img"
-            width={240}
-            height={160}
-          />
+        <ImgWrapper isDark={isDark}>
+          <GatsbyImage image={image!} alt={thumbnailAlt} />
           <Tag isDark={isDark}>{tag}</Tag>
         </ImgWrapper>
         <InfoWrapper>
@@ -56,10 +56,24 @@ const Article = styled.article`
   }
 `;
 
-const ImgWrapper = styled.div`
+const ImgWrapper = styled.div<{ isDark: boolean }>`
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: contain;
+  background-color: ${({ isDark }) => (isDark ? '#fff' : '#000')};
+  border-radius: 1.2rem;
 
   img {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    aspect-ratio: 3 / 2;
+    height: 16rem;
+    object-fit: contain;
     border-radius: 1.2rem;
   }
 `;

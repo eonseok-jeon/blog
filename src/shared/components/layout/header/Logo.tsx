@@ -1,18 +1,27 @@
 import styled from '@emotion/styled';
-import { Link } from 'gatsby';
+import { Link, graphql, useStaticQuery } from 'gatsby';
 import IcSleepingMan from '@assets/icSleepingMan.svg';
 import IcWorkingMan from '@assets/icWorkingMan.svg';
 
 /** Home page logo */
 export default function Logo() {
   const randomNumber = Math.floor(Math.random() * 2);
+  const data = useStaticQuery(graphql`
+    query {
+      site {
+        siteMetadata {
+          title
+        }
+      }
+    }
+  `);
 
   return (
     <Container to="/">
       <LogoWrapper>
         {randomNumber === 0 && <IcSleepingMan />}
         {randomNumber === 1 && <IcWorkingMan />}
-        <Title>Eonseok's Blog</Title>
+        <Title>{data.site.siteMetadata.title}</Title>
       </LogoWrapper>
     </Container>
   );

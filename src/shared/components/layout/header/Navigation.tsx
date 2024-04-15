@@ -35,12 +35,12 @@ export default function Navigation() {
   return (
     <nav>
       <NavList>
-        {NAV_ITEMS.map(({ label, subItems }) => (
+        {NAV_ITEMS.map(({ label, subItems, link }) => (
           <NavItem
             onMouseEnter={() => setIsSubItemsOpen(label)}
             onMouseLeave={() => setIsSubItemsOpen('')}
           >
-            <Link to="#">{label}</Link>
+            <Link to={link}>{label}</Link>
             <SubNavItems
               isSubItemsOpen={isSubItemsOpen}
               label={label}
