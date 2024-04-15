@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import PostPreview from './PostPreview';
 import { Link } from 'gatsby';
-import { IGatsbyImageData, getImage } from 'gatsby-plugin-image';
+import { IGatsbyImageData } from 'gatsby-plugin-image';
 
 interface PostsProps {
   data: {

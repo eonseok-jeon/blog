@@ -29,7 +29,15 @@ const config: GatsbyConfig = {
         path: `${__dirname}/contents`,
       },
     },
-    'gatsby-plugin-mdx',
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: `pages`,
+        path: `${__dirname}/src/pages`,
+      },
+    },
+    `gatsby-plugin-mdx`,
+    `gatsby-transformer-remark`,
   ],
 };
 
