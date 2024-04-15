@@ -2,13 +2,8 @@ import IcSun from '@assets/icSun.svg';
 import IcMoon from '@assets/icMoon.svg';
 import styled from '@emotion/styled';
 
-interface IDarkModeProps {
-  isDark: boolean;
-  onChangeMode: () => void;
-}
-
 /** Light / Dark Mode Button */
-export default function DarkMode({ isDark, onChangeMode }: IDarkModeProps) {
+export default function DarkMode({ isDark, onChangeMode }) {
   return (
     <Container onClick={onChangeMode}>
       {isDark && <IcMoon />}

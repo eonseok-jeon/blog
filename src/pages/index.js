@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { graphql, type HeadFC, type PageProps } from 'gatsby';
+import { graphql } from 'gatsby';
 import Layout from '@components/layout/Layout';
 import { Global, ThemeProvider } from '@emotion/react';
 import global from '@styles/global';
@@ -8,7 +8,7 @@ import DarkMode from '@components/DarkMode';
 import { DarkModeContext } from '@contexts/darkModeContext';
 import Posts from '../views/mainPage/components/Posts';
 
-const IndexPage: React.FC<PageProps> = ({ data }) => {
+const IndexPage = ({ data }) => {
   const [isDark, setIsDark] = useState(true);
 
   const handleChangeMode = () => {
@@ -53,4 +53,4 @@ export const query = graphql`
 
 export default IndexPage;
 
-export const Head: HeadFC = () => <title>Home Page</title>;
+export const Head = () => <title>Home Page</title>;

@@ -1,11 +1,10 @@
 import React from 'react';
-import { PropsWithChildren } from 'react';
 import Header from './header';
 import Footer from './Footer';
 import styled from '@emotion/styled';
 
 /** main layout */
-export default function Layout({ children }: PropsWithChildren) {
+export default function Layout({ children }) {
   return (
     <>
       <Header />
