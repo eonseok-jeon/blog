@@ -3,21 +3,28 @@ import Layout from '../shared/components/layout/Layout';
 import { MDXProvider } from '@mdx-js/react';
 import { Global } from '@emotion/react';
 import global from '@styles/global';
-
-const Div = styled.div`
-  font-size: 100px;
-`;
-
-const shortcodes = { Div };
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { graphql } from 'gatsby';
 
 /** 포스트 템플릿 */
-export default function PostTemplate({ children }) {
+export default function PostTemplate({ children, data }) {
+  const { title, subTitle, date, tag, thumbnail, thumbnail_alt } =
+    data.mdx.frontmatter;
+  const featuredImg = getImage(thumbnail?.childImageSharp?.gatsbyImageData);
+
   return (
     <>
       <Global styles={global} />
       <Layout>
         <PostArticle>
-          <MDXProvider components={shortcodes}>{children}</MDXProvider>
+          <p>
+            @{tag} / {date}
+          </p>
+          <h1>{title}</h1>
+          <GatsbyImage image={featuredImg} alt={thumbnail_alt} />
+          <h2>{subTitle}</h2>
+          <hr />
+          <MDXProvider>{children}</MDXProvider>
         </PostArticle>
       </Layout>
     </>
@@ -26,18 +33,21 @@ export default function PostTemplate({ children }) {
 
 const PostArticle = styled.article`
   max-width: 104rem;
-  border: 1px solid blue;
   margin: 0 auto;
   padding: 7%;
 
   h1 {
-    margin-bottom: 2rem;
+    margin: 1.5rem 0;
     font-size: 4rem;
     font-weight: 700;
   }
 
+  h1 + p {
+    text-align: end;
+  }
+
   h2 {
-    margin-bottom: 1.5rem;
+    margin: 1.5rem 0;
     font-size: 3.2rem;
     font-weight: 600;
   }
@@ -135,4 +145,23 @@ const PostArticle = styled.article`
     background-color: #222;
     border: 0.1rem solid #666;
   } */
+`;
+
+export const query = graphql`
+  query ($id: String) {
+    mdx(id: { eq: $id }) {
+      frontmatter {
+        title
+        subTitle
+        date
+        tag
+        thumbnail {
+          childImageSharp {
+            gatsbyImageData(width: 1040)
+          }
+        }
+        thumbnail_alt
+      }
+    }
+  }
 `;

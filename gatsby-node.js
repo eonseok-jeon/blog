@@ -24,7 +24,17 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         nodes {
           id
           frontmatter {
+            title
+            subTitle
+            date
+            tag
             url
+            thumbnail {
+              childImageSharp {
+                gatsbyImageData(width: 1040)
+              }
+            }
+            thumbnail_alt
           }
           internal {
             contentFilePath
