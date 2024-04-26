@@ -53,15 +53,20 @@ const PostArticle = styled.article`
   }
 
   h3 {
-    margin: 4rem 0 1rem;
+    margin: 8rem 0 1rem;
     font-size: 3rem;
     font-weight: 600;
   }
 
   h4 {
-    margin: 2rem 0 0.5rem;
+    margin: 4rem 0 0.5rem;
     font-size: 2.2rem;
     font-weight: 600;
+  }
+
+  h5 {
+    font-size: 1.8rem;
+    font-weight: 500;
   }
 
   ol,
@@ -77,10 +82,41 @@ const PostArticle = styled.article`
     list-style: disc inside;
   }
 
+  p > a {
+    position: relative;
+    display: inline-block;
+    margin-top: 1rem;
+    color: blue;
+
+    &::after {
+      position: absolute;
+      opacity: 0;
+      width: 0%;
+      height: 0.2rem;
+      content: '';
+      background: currentColor;
+      transition: all 0.3s;
+    }
+
+    &::after {
+      left: 0;
+      bottom: 0;
+    }
+
+    &:hover::after {
+      opacity: 1;
+      width: 100%;
+    }
+  }
+
   blockquote {
     border-left: 5px solid black;
     padding: 0.7rem 0rem 0.7rem 1rem;
     margin: 1rem 0;
+
+    p:last-child {
+      margin-bottom: 0;
+    }
   }
 
   strong {
@@ -89,6 +125,10 @@ const PostArticle = styled.article`
 
   span {
     margin: 2rem 0 1rem;
+  }
+
+  p {
+    margin-bottom: 2rem;
   }
 
   img {
@@ -121,7 +161,7 @@ const PostArticle = styled.article`
     display: inline-block;
     background-color: #e5e7eb;
     border-radius: 0.5rem;
-    padding: 0.5rem;
+    padding: 0rem 0.5rem;
     margin: 0.5rem 0.2rem;
     font-size: small;
     counter-reset: line;
