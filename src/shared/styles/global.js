@@ -21,7 +21,7 @@ const global = (theme) => css`
   body {
     font-family: sans-serif;
     font-size: 1.6rem;
-    line-height: 1.2;
+    line-height: 1.5;
     font-weight: 400;
     letter-spacing: 1;
     color: ${theme.text};
