@@ -77,6 +77,15 @@ const PostArticle = styled.article`
     font-weight: 700;
   }
 
+  span {
+    margin: 2rem 0 1rem;
+  }
+
+  img {
+    border-radius: 5px;
+    display: inline-block;
+  }
+
   del {
     font-size: 1.4rem;
     font-weight: 300;
@@ -91,7 +100,6 @@ const PostArticle = styled.article`
 
   pre {
     border: 1px solid black;
-    width: 100%;
     padding: 1rem;
     margin: 2rem 0;
     font-size: small;
