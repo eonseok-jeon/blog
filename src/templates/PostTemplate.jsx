@@ -87,7 +87,7 @@ const PostArticle = styled.article`
     position: relative;
     display: inline-block;
     margin-top: 1rem;
-    color: blue;
+    color: ${({ theme }) => theme.linkColor};
 
     &::after {
       position: absolute;
@@ -111,9 +111,9 @@ const PostArticle = styled.article`
   }
 
   blockquote {
-    border-left: 5px solid black;
     padding: 0.7rem 0rem 0.7rem 1rem;
     margin: 1rem 0;
+    border-left: ${({ theme }) => `5px solid ${theme.reverseBackground}`};
 
     p:last-child {
       margin-bottom: 0;
@@ -141,17 +141,17 @@ const PostArticle = styled.article`
   em {
     font-size: 1.4rem;
     font-weight: 300;
-    color: #777;
+    color: ${({ theme }) => theme.lightText};
   }
 
   hr {
     width: 100%;
     margin: 1rem 0;
-    border-top: 1px solid black;
+    border-top: ${({ theme }) => `1px solid ${theme.text}`};
   }
 
   pre {
-    border: 1px solid black;
+    border: ${({ theme }) => `1px solid ${theme.reverseBackground}`};
     padding: 1rem;
     margin: 2rem 0;
     font-size: small;
@@ -161,7 +161,7 @@ const PostArticle = styled.article`
 
   code {
     display: inline-block;
-    background-color: #e5e7eb;
+    background-color: ${({ theme }) => theme.codeBox};
     border-radius: 0.5rem;
     padding: 0rem 0.5rem;
     margin: 0.5rem 0.2rem;
@@ -174,19 +174,6 @@ const PostArticle = styled.article`
     padding: 0 0.25rem;
     background-color: transparent;
   }
-
-  /* pre {
-    display: inline-block;
-    width: 100%;
-    overflow: auto;
-    margin: 2rem 0;
-    padding: 0.1rem 2rem;
-    border-radius: 1rem;
-    font-size: 1.2rem;
-    color: #fff;
-    background-color: #222;
-    border: 0.1rem solid #666;
-  } */
 `;
 
 export const query = graphql`

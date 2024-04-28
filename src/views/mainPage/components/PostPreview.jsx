@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-import { DarkModeContext } from '@contexts/darkModeContext';
 import { Link } from 'gatsby';
 
 /** Post Preview Card */
@@ -14,15 +13,14 @@ export default function PostPreview({
   thumbnail,
   thumbnailAlt,
 }) {
-  const isDark = useContext(DarkModeContext);
   const image = getImage(thumbnail);
 
   return (
     <>
       <Article to={`/${url}`}>
-        <ImgWrapper isDark={isDark}>
+        <ImgWrapper>
           <GatsbyImage image={image} alt={thumbnailAlt} />
-          <Tag isDark={isDark}>{tag}</Tag>
+          <Tag>{tag}</Tag>
         </ImgWrapper>
         <InfoWrapper>
           <MainTitle>{mainTitle}</MainTitle>
@@ -55,7 +53,7 @@ const ImgWrapper = styled.div`
   justify-content: center;
   width: 100%;
   object-fit: contain;
-  background-color: ${({ isDark }) => (isDark ? '#fff' : '#000')};
+  background-color: ${({ theme }) => theme.reverseBackground};
   border-radius: 1.2rem;
   overflow: hidden;
 
@@ -75,8 +73,9 @@ const Tag = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.4rem 0.8rem;
-  background-color: ${({ isDark }) => (isDark ? '#121212' : '#fff')};
+  padding: 0rem 0.6rem;
+  color: ${({ theme }) => theme.text};
+  background-color: ${({ theme }) => theme.background};
   border-radius: 0.8rem;
 `;
 

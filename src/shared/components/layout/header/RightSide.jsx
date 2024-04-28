@@ -76,8 +76,7 @@ const NavItem = styled.li`
   transition: all 0.3s ease;
 
   &:hover {
-    color: #888;
-    background-color: ${({ isDark }) => (isDark ? '#fff' : '#121212')};
+    color: ${({ theme }) => theme.lightText};
   }
 
   &::before {
@@ -88,7 +87,7 @@ const NavItem = styled.li`
     max-width: 0;
     opacity: 0;
     content: attr(data-hover);
-    color: ${({ isDark }) => (isDark ? '#000' : '#fff')};
+    color: ${({ theme }) => theme.text};
 
     -webkit-transition: max-width 0.7s ease-out;
     -moz-transition: max-width 0.7s ease-out;
