@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { graphql } from 'gatsby';
 import Layout from '@components/layout/Layout';
 import { Global, ThemeProvider } from '@emotion/react';
@@ -9,22 +9,39 @@ import { DarkModeContext } from '@contexts/darkModeContext';
 import Posts from '../views/mainPage/components/Posts';
 
 const IndexPage = ({ data }) => {
-  const [isDark, setIsDark] = useState(true);
+  const getInitialMode = () => {
+    const savedMode = localStorage.getItem('darkMode');
+    return savedMode != null ? savedMode : 'dark';
+  };
+
+  const [changeMode, setChangeMode] = useState(getInitialMode());
 
   const handleChangeMode = () => {
-    setIsDark((prev) => !prev);
+    setChangeMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
-  console.log(data);
+
+  const darkModeValue = {
+    isDark: changeMode === 'dark' ? true : false,
+    onChangeMode: handleChangeMode,
+  };
+
+  useEffect(() => {
+    localStorage.setItem('darkMode', changeMode);
+  }, [changeMode]);
 
   return (
-    <DarkModeContext.Provider value={isDark}>
-      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-        <DarkMode isDark={isDark} onChangeMode={handleChangeMode} />
-        <Global styles={global} />
-        <Layout>
-          <Posts data={data} />
-        </Layout>
-      </ThemeProvider>
+    <DarkModeContext.Provider value={darkModeValue}>
+      <DarkModeContext.Consumer>
+        {({ isDark }) => (
+          <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+            <DarkMode />
+            <Global styles={global} />
+            <Layout>
+              <Posts data={data} />
+            </Layout>
+          </ThemeProvider>
+        )}
+      </DarkModeContext.Consumer>
     </DarkModeContext.Provider>
   );
 };
