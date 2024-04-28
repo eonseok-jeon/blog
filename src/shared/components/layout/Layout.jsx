@@ -7,9 +7,13 @@ import { darkTheme, lightTheme } from '@styles/theme';
 import { DarkModeContext } from '@contexts/darkModeContext';
 import { ThemeProvider } from '@emotion/react';
 
+const isBrowser = typeof window !== 'undefined';
+
 /** main layout */
 export default function Layout({ children }) {
   const getInitialMode = () => {
+    if (!isBrowser) return;
+
     const savedMode = localStorage.getItem('darkMode');
     return savedMode != null ? savedMode : 'dark';
   };
