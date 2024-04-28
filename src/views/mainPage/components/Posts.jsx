@@ -35,6 +35,11 @@ const Container = styled.section`
   justify-content: center;
   width: 100%;
   padding: 10rem 7%;
+
+  /* 665px */
+  @media screen and (max-width: 41.5625em) {
+    align-items: center;
+  }
 `;
 
 const PostsCount = styled.h2`
