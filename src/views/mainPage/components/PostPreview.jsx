@@ -35,8 +35,7 @@ export default function PostPreview({
 }
 
 const Article = styled(Link)`
-  width: 25.6rem;
-  height: 25.6rem;
+  width: 27.9rem;
   margin-bottom: 7rem;
   padding: 0.8rem;
   border: 3px solid #888;
@@ -55,19 +54,17 @@ const ImgWrapper = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  aspect-ratio: 3 / 2;
   object-fit: contain;
   background-color: ${({ isDark }) => (isDark ? '#fff' : '#000')};
   border-radius: 1.2rem;
+  overflow: hidden;
 
   img {
     width: 100%;
     text-align: center;
     margin: 0 auto;
-    aspect-ratio: 3 / 2;
     height: 16rem;
     object-fit: contain;
-    border-radius: 1.2rem;
   }
 `;
 

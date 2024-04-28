@@ -8,9 +8,8 @@ export default function Posts(data) {
   const { nodes } = data.data.allMdx;
 
   return (
-    <FeatureContainer id="post-preview-list">
-      <MainTitle>My Posts</MainTitle>
-      <SubTitle>Total ({nodes.length})</SubTitle>
+    <Container>
+      <PostsCount>Total ({nodes.length})</PostsCount>
       <PostDataList>
         {nodes.map(({ id, frontmatter }) => (
           <PostPreview
@@ -25,35 +24,25 @@ export default function Posts(data) {
           />
         ))}
       </PostDataList>
-    </FeatureContainer>
+    </Container>
   );
 }
 
 const Container = styled.section`
-  width: 100%;
-  padding: 0 10rem;
-
-  /* 810px */
-  @media screen and (max-width: 50.9375em) {
-    padding: 0 10%;
-  }
-`;
-
-const FeatureContainer = styled(Container)`
   display: flex;
   gap: 1.6rem;
   flex-direction: column;
   justify-content: center;
-  padding-top: 12rem;
+  width: 100%;
+  padding: 10rem 7%;
+
+  /* 665px */
+  @media screen and (max-width: 41.5625em) {
+    align-items: center;
+  }
 `;
 
-const MainTitle = styled.h1`
-  font-size: 6rem;
-  font-weight: 700;
-  margin-bottom: 0.8rem;
-`;
-
-const SubTitle = styled.h3`
+const PostsCount = styled.h2`
   font-size: 3.2rem;
   font-weight: 500;
 `;
