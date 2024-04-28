@@ -14,7 +14,6 @@ export default function Header() {
 
 const Container = styled.header`
   position: sticky;
-  border-bottom: 1px solid red;
   display: flex;
   align-items: center;
   justify-content: space-between;

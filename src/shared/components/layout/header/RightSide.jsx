@@ -32,7 +32,6 @@ const NavItem = styled.li`
   &:hover {
     color: #888;
     background-color: ${({ isDark }) => (isDark ? '#fff' : '#121212')};
-    cursor: pointer;
   }
 
   &::before {
