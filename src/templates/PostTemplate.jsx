@@ -65,6 +65,7 @@ const PostArticle = styled.article`
   }
 
   h5 {
+    margin: 3rem 0 0;
     font-size: 1.8rem;
     font-weight: 500;
   }
@@ -136,7 +137,8 @@ const PostArticle = styled.article`
     display: inline-block;
   }
 
-  del {
+  del,
+  em {
     font-size: 1.4rem;
     font-weight: 300;
     color: #777;

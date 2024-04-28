@@ -1,0 +1,559 @@
+---
+title: 'useEffect'
+subTitle: 'useEffect 공부해보기 (스터디 발표 자료)'
+date: '2023-10-26'
+tag: 'React'
+url: 'react-2'
+thumbnail: './imgs/2/1.png'
+thumbnail_alt: 'useEffect 공식 문서 캡쳐 화면'
+---
+
+#### 왜 사용할까?
+
+side effect를 처리하기 위해.
+side effect는 직접적으로 컴포넌트 함수 안에 들어가면 안 된다. 버그나 무한 루프가 발생할 수 있기 때문.
+
+```jsx
+const App = () => {
+  const [state, setState] = useState('');
+
+  fetch('https://api.quotable.io/random')
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.content) {
+        setState(data.content);
+      }
+    });
+
+  return <div>{state}</div>;
+};
+
+export default App;
+```
+
+따라서 이를 방지하고자 side effect를 처리하는 도구가 필요. ⇒ `useEffect` 훅.
+
+### 사용법
+
+```jsx
+useEffect(setup, dependencies?);
+```
+
+두 개의 argument와 같이 호출된다.
+
+- `setup`: `Effect`의 로직을 포함하는 함수. component가 `DOM`에 추가될 때, React는 `setup` 함수를 실행한다.
+- (optional) `dependencies`: **`setup`** 코드 내부에서 참조된 모든 **reactive values**의 목록.
+  **reactive values**에는 **props**, **state**, 그리고 컴포넌트 본문 내에서 직접 선언된 모든 **변수**와 **함수**가 포함된다.
+  이 `dependencies`의 값이 변경될 때마다 `setup` 함수가 다시 실행된다.
+- `useEffect` 함수는 `undefined`를 반환한다.
+
+### 실행되는 경우
+
+#### 종속성 없는 경우
+
+```jsx
+useEffect(() => {
+  console.log('EFFECT RUNNING');
+});
+```
+
+- 처음 마운트 되었을 때 실행된다.
+- state가 업데이트 되어 재렌더링될 때마다 실행된다.
+
+#### 빈 종속성 배열을 갖는 경우
+
+```jsx
+useEffect(() => {
+  console.log('EFFECT RUNNING');
+}, []);
+```
+
+- 처음 마운트되고 렌더링될 때만 실행된다.
+
+#### 종속성이 추가된 경우
+
+```jsx
+useEffect(() => {
+  console.log('EFFECT RUNNING');
+}, [enteredPassword]);
+```
+
+- 처음 마운트 되었을 때 실행된다.
+- 의존성에 추가된 state가 변경될 때마다 실행된다.
+
+#### clean up 함수
+
+```jsx
+useEffect(() => {
+  console.log('EFFECT RUNNING');
+
+  return () => {
+    console.log('CLEAN UP');
+  };
+}, [enteredPassword]);
+```
+
+- 첫 렌더링에는 실행이 되지 않는다.
+- 의존성에 추가된 state가 변경될 때, 가장 먼저 실행이 된다.
+- 컴포넌트가 언마운트 될 때 실행된다.
+
+#### 정리
+
+1. `setup` code는 컴포넌트가 페이지에 추가될 때(마운트될 때) 실행된다.
+2. 컴포넌트가 재렌더링되고 종속성(`dependencies`)이 변경된 경우:
+   1. 먼저 이전의 props와 state를 사용하여 `cleanup` code가 실행된다.
+   2. 그런 다음 새로운 props와 state를 사용하여 `setup` code가 실행된다.
+3. 컴포넌트가 페이지에서 제거될 때(언마운트될 때), `cleanup` code가 한 번 더 실행된다.
+
+> 💡 버그를 찾아내는 데 도움을 주기 위한 개발 모드(Strict mode)에서
+> React는 `setup`과 `cleanup`을 `setup` 전에 한 번 더 실행한다.
+>
+> 이는 Effect의 로직이 올바르게 구현되었는지 확인하는 테스트다.
+> 이로 인해 문제가 발생하는 경우, `cleanup` 함수에 일부 로직이 누락되어 있는 것일 수 있다.
+>
+> `cleanup` 함수는 `setup` 함수가 수행하는 작업을 중지하거나 되돌려야 하기에,
+> 일반적인 원칙은 사용자가 `setup` 함수가 한 번 호출되는 것(product용)과
+> `setup` → `cleanup` → `setup` 시퀀스(develop용)를 구분할 수 없어야 한다는 것이다.
+>
+> 다시 말해, 자주 `setup` 및 `cleanup`을 실행해도 Effect는 올바르게 작동해야 한다.
+
+### 주의할 점
+
+```jsx
+import { useState, useEffect } from 'react';
+
+const createConnection = ({ serverUrl, roomId }) => {
+  return {
+    connect() {
+      console.log(
+        '✅ Connecting to "' + roomId + '" room at ' + serverUrl + '...',
+      );
+    },
+    disconnect() {
+      console.log('❌ Disconnected from "' + roomId + '" room at ' + serverUrl);
+    },
+  };
+};
+
+const serverUrl = 'https://localhost:1234';
+
+const ChatRoom = ({ roomId }) => {
+  const [message, setMessage] = useState('');
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const options = {
+    serverUrl: serverUrl,
+    roomId: roomId,
+  };
+
+  useEffect(() => {
+    const connection = createConnection(options);
+    connection.connect();
+    return () => connection.disconnect();
+  }, [options]);
+
+  return (
+    <>
+      <h1>Welcome to the {roomId} room!</h1>
+      <input value={message} onChange={(e) => setMessage(e.target.value)} />
+    </>
+  );
+};
+
+export default function App() {
+  const [roomId, setRoomId] = useState('general');
+  return (
+    <>
+      <label>
+        Choose the chat room:{' '}
+        <select value={roomId} onChange={(e) => setRoomId(e.target.value)}>
+          <option value="general">general</option>
+          <option value="travel">travel</option>
+          <option value="music">music</option>
+        </select>
+      </label>
+      <hr />
+      <ChatRoom roomId={roomId} />
+    </>
+  );
+}
+```
+
+간단한 채팅룸을 구현한 코드이다.
+무엇이 문제일까요?
+
+인풋칸에 어떤한 텍스트를 입력만해도 재렌더링이 일어나서 connect가 끊어졌다가 재연결 된다.
+그 이유는 const options와 관련이 있다.
+
+ChatRoom 컴포넌트의 각 렌더링에서 options 객체가 처음부터 다시 생성된다. React는 이 options 객체가 이전 렌더링 중에 생성된 options 객체와 다른 객체임을 감지한다. 이것이 options에 종속된 `Effect`를 다시 동기화하고, 채팅이 입력하는 대로 다시 연결하는 이유이다.
+
+##### 참고
+
+```jsx
+const str1 = 'apple';
+const str2 = 'apple';
+
+console.log(str1 === str2); // true
+
+const arr1 = [1, 2];
+const arr2 = [1, 2];
+
+console.log(arr1 === arr2); // false
+```
+
+이 문제는 주로 객체와 함수에 영향을 미친다. JavaScript에서 각각 새로 생성된 객체와 함수는 다른 모든 객체와 함수와 구별되는 별개의 객체로 간주된다. 내부 내용이 동일하더라도 이들이 서로 다른 객체임을 고려하지 않는다.
+
+> 💡 객체와 함수 종속성(`dependencies`)은 `Effect`가 필요한 것보다 더 자주 다시 동기화(실행)되도록 만들 수 있다.
+
+이런 경우 어떻게 해야 하는가?
+
+```jsx
+const options = {
+  serverUrl: 'https://localhost:1234',
+  roomId: 'music'
+};
+
+const ChatRoom = () => {
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const connection = createConnection(options);
+    connection.connect();
+    return () => connection.disconnect();
+  }, []);
+
+...
+}
+```
+
+아예 component 안에서 없애버리거나,
+
+```jsx
+const serverUrl = 'https://localhost:1234';
+
+function ChatRoom({ roomId }) {
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const options = {
+      serverUrl: serverUrl,
+      roomId: roomId
+    };
+    const connection = createConnection(options);
+    connection.connect();
+    return () => connection.disconnect();
+  }, [roomId]);
+  // ...
+```
+
+그렇게 하지 못하는 경우, `useEffect` 안으로 넣어버린다.
+
+그렇다면, 부모로부터 객체가 넘어오는 경우일 땐 어떻게 해야 할까?
+
+```jsx
+const ChatRoom = ({ options }) => {
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const connection = createConnection(options);
+    connection.connect();
+
+    return () => connection.disconnect();
+  }, [options]);
+  // ...
+```
+
+부모 컴포넌트가 렌더링 중에 객체를 생성할 수 있다.
+이렇게 하면 부모 컴포넌트가 다시 렌더링될 때마다 `Effect`가 다시 실행 될 수 있다.
+
+이런 경우 어떻게 해야 하는가?
+
+```jsx
+function ChatRoom({ options }) {
+  const [message, setMessage] = useState('');
+
+  const { roomId, serverUrl } = options;
+
+  useEffect(() => {
+    const connection = createConnection({
+      roomId: roomId,
+      serverUrl: serverUrl
+    });
+    connection.connect();
+
+    return () => connection.disconnect();
+  }, [roomId, serverUrl]); // ✅ All dependencies declared
+  // ...
+```
+
+구조분해할당을 통해 종속성을 추가해주면 된다.
+
+### 불필요한 useEffect 줄이기
+
+#### 불필요한 object dependencies 줄이기
+
+```jsx
+useEffect(() => {
+  setFormIsValid(emailState.isValid && enteredPassword.trim().length > 6);
+}, [emailState, enteredPassword]);
+```
+
+위와 같이 할 경우, 필요 없는 re-rendering이 발생하게 됨.
+
+수정한 결과
+
+```jsx
+useEffect(() => {
+  setFormIsValid(emailState.isValid && enteredPassword.trim().length > 6);
+}, [emailState.isValid, enteredPassword]);
+```
+
+```jsx
+const { isValid: emailIsValid } = emailState;
+
+useEffect(() => {
+  setFormIsValid(
+    emailIsValid && enteredPassword.trim().length > 6
+  );🐕
+}, [emailIsValid, enteredPassword])
+```
+
+하지만 이는 또 더 개선이 가능하다.
+
+```jsx
+const formIsValid = emailState.isValid && passwordIsValid;
+```
+
+렌더링 중에 자동으로 계산이 된다.
+이렇게 했을 시, 추가로 발생하는 연쇄 업데이트를 피하며, 코드가 빨라지고, 더 간결해진다.
+
+#### 이전 state값을 통하여 state 업데이트하기
+
+`useEffect` 내에서 prev state를 통해 state를 업데이트 하고 싶은 경우.
+아래는 숫자가 1초에 하나씩 증가하는 컴포넌트이다.
+
+```jsx
+const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCount(count + 1);
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, [count]);
+
+  return <h1>{count}</h1>;
+};
+```
+
+하지만 이럴 경우, count가 변할 때 마다, `cleanup`과 `setup` 함수가 실행되게 된다.
+
+아래와 같이 수정해 주어야 한다.
+
+```jsx
+const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCount(c => c + 1);
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
+```
+
+#### Prop 변화에 따른 state 변경
+
+부모로 부터 items를 받고, 이 값이 변경될 때마다 selection state를 null로 바꿔주는 간단한 로직.
+
+```jsx
+function List({ items }) {
+  const [selection, setSelection] = useState(null);
+
+  useEffect(() => {
+    setSelection(null);
+  }, [items]);
+  // ...
+}
+```
+
+어딜 개선해야 하는 걸까?
+
+items가 변경될 때마다 List와 그 child components가 예전 selection값으로 일단 rendering 된다. 그 후 DOM에 update되고, `useEffect`가 실행이 된다.
+
+자식 component의 `useEffect`와 부모 component의 `useEffect` 중 누가 먼저 실행이 될까?
+자식 컴포넌트가 먼저 실행이 된다. [참고자료 [React] useEffect 실행 순서](https://velog.io/@jhsung23/React-useEffect-실행-순서)
+
+그래서 차라리 새 state를 만들어서 관리하는 것이 좋다.
+
+```jsx
+function List({ items }) {
+  const [selection, setSelection] = useState(null);
+
+  const [prevItems, setPrevItems] = useState(items);
+  if (items !== prevItems) {
+    setPrevItems(items);
+    setSelection(null);
+  }
+  // ...
+}
+```
+
+이렇게 했을 때, setPrevItems(items); 에서 상태가 변함을 인지하게 되면 그 순간 바로 List를 재렌더링 한다.
+이전 상태값을 통한 자식들의 렌더링을 막을 수 있다.
+하지만 이 또한 한 번 더 개선이 가능하다.
+props를 또 다른 state를 이용해서 관리하게 되면 data flow를 이해하기 어렵게 만들 뿐 아니라, debug 하는 것도 어려워진다.
+
+```jsx
+function List({ items }) {
+  const [isReverse, setIsReverse] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
+  const selection = items.find((item) => item.id === selectedId) ?? null;
+  // ...
+}
+```
+
+useEffect 사용하기 전에 고려하면 좋은 것
+
+- rendering 중에 calculate 할 수 있는지
+- key를 이용하여 모든 state를 reset 할 수 있는지
+
+##### key를 이용한다는 건 뭔 소린가요? 🐕
+
+userId 별로 각각의 comment를 달기 위해 comment를 초기화 해준다. 뭐가 문제일까?
+
+```jsx
+export default function ProfilePage({ userId }) {
+  const [comment, setComment] = useState('');
+
+  useEffect(() => {
+    setComment('');
+  }, [userId]);
+  // ...
+}
+```
+
+어떻게 수정할 수 있을까?
+
+key 속성을 이용하면 된다.
+
+```jsx
+export default function ProfilePage({ userId }) {
+  return <Profile userId={userId} key={userId} />;
+}
+
+function Profile({ userId }) {
+  // ✅ This and any other state below will reset on key change automatically
+  const [comment, setComment] = useState('');
+  // ...
+}
+```
+
+userId를 key로 전달해준다.
+이렇게 되면 React는 서로 다른 키를 가진 Profile components를 다른 component로 생각하며, 어떠한 state도 공유하지 않게 한다.
+각각의 Profile component는 각각의 comment state를 갖게 되는 것이다. 그 child 까지도.
+주의
+키를 전혀 지정하지 않으면 React는 배열 내 항목의 인덱스를 키로 사용한다.
+그러나 항목이 삽입, 삭제되거나 배열이 재정렬되면 항목을 렌더링하는 순서가 시간이 지남에 따라 변경된다. 인덱스를 키로 사용하면 종종 미묘하고 혼란스러운 버그를 유발한다.
+마찬가지로 key={Math.random()}과 같이 키를 동적으로 생성할 시 키가 렌더링 사이에서 일치하지 않아 모든 컴포넌트와 DOM이 매번 다시 생성된다. 이것은 느리고, 목록 항목 내부의 사용자 입력을 잃어버린다. 데이터를 기반으로 안정적인 ID를 사용해야 한다.
+참고로 컴포넌트는 키를 프롭으로 받지 않는다. React 자체에서만 사용된다.
+컴포넌트가 ID가 필요한 경우 별도의 프롭으로 전달한다:
+
+```jsx
+<Profile key={id} userId={id} />
+```
+
+#### 캐싱 비용 줄이기
+
+부모로부터 **todos**와 **filter** 값을 넘겨 받아, 이 값들이 변경될 때 마다 **getFilteredTodos**(**todos**, **filter**); 함수를 실행시키고 결과값을 변수에 저장해 렌더링 하고 싶다고 하자.
+
+```jsx
+const TodoList = ({ todos, filter }) => {
+  const [visibleTodos, setVisibleTodos] = useState([]);
+
+  useEffect(() => {
+    setVisibleTodos(getFilteredTodos(todos, filter));
+  }, [todos, filter]);
+
+  // ...
+};
+```
+
+이전 예제와 마찬가지로 불필요하며 비효율적이다.
+
+```jsx
+const TodoList = ({ todos, filter }) => {
+  const [newTodo, setNewTodo] = useState('');
+
+  const visibleTodos = getFilteredTodos(todos, filter);
+  // ...
+};
+```
+
+이런 식으로 바로 구현해주면 된다. 하지만 이게 최선일까?
+
+만약 **getFilteredTodos**가 굉장히 시간이 오래걸리고 무거운 함수라면?
+렌더링 될 때마다 함수 새로 실행시켜야 해서 효율성이 떨어진다.
+이럴 때 사용하는 것이 `useMemo`
+
+```jsx
+import { useMemo, useState } from 'react';
+
+const TodoList = ({ todos, filter }) => {
+  const [newTodo, setNewTodo] = useState('');
+  const visibleTodos = useMemo(() => {
+    return getFilteredTodos(todos, filter);
+  }, [todos, filter]);
+  // ...
+};
+```
+
+**todos**와 **filter**가 변경될 때까지 다시 실행되지 않는다.
+
+`React`는 초기 렌더링 중 **getFilteredTodos**()의 반환 값을 기억한다.
+다음 렌더 중에 **todos** 또는 **filter**가 다른지 확인한다.
+이전과 동일하다면 `useMemo`는 저장된 마지막 결과를 반환한다.
+그러나 다르다면 `React`는 내부 함수를 다시 호출하고 결과를 저장한다.
+
+하지만 예전 값과 비교를 하는데도 상당 비용이 소요가 된다.
+따라서 개발자가 경중을 잘 판단하여, `useMemo`를 사용해야 한다.
+
+### 그럼 calculation이 expensive한지 어떻게 구분할 수 있을까?
+
+일반적으로 수천 개의 객체를 생성하거나 반복하지 않는 한, 대부분 비싼 작업이 아닐 것이다.
+하지만 객관적인 수치로 평가를 하고 싶다면
+
+```jsx
+console.time('filter array');
+const visibleTodos = getFilteredTodos(todos, filter);
+console.timeEnd('filter array');
+```
+
+위와 같이 시간을 측정해보면 된다.
+
+전체 로그된 시간이 상당하면 (예: 1ms 이상), 해당 계산을 캐싱하는 것이 합리적일 수 있다.
+실험으로 useMemo로 계산을 래핑하여 해당 상호 작용에 대한 전체 로그된 시간이 감소했는지 확인할 수 있다.
+
+##### 주의할 점
+
+- useMemo는 첫 번째 렌더링을 빠르게 만들지 않는다. 업데이트에서 불필요한 작업을 건너 뛰도록 도와주는 것이다.
+- 머신이 사용자보다 빠를 것이라는 점을 명심해야 한다. 따라서 성능을 인위적으로 늦추는 것이 좋다. (예: Chrome에서의 CPU Throttling 옵션).
+- 개발 환경에서 성능을 측정하면 가장 정확한 결과를 제공하지 않을 수 있다. (예: Strict Mode가 켜져 있을 때, 컴포넌트가 한 번이 아닌 두 번 렌더링된다.) 가장 정확한 타이밍을 얻으려면 프로덕션용으로 앱을 빌드하고 사용자와 같은 장치에서 테스트해야 한다.
+
+### 참고자료
+
+[useEffect – React](https://react.dev/reference/react/useEffect#reading-the-latest-props-and-state-from-an-effect)
+
+[Synchronizing with Effects – React](https://react.dev/learn/synchronizing-with-effects)
+
+[You Might Not Need an Effect – React](https://react.dev/learn/you-might-not-need-an-effect)
+
+[Removing Effect Dependencies – React](https://react.dev/learn/removing-effect-dependencies)
+
+### 참고해 보면 좋을 자료
+
+[Lifecycle of Reactive Effects – React](https://react.dev/learn/lifecycle-of-reactive-effects)
+
+[Separating Events from Effects – React](https://react.dev/learn/separating-events-from-effects)
