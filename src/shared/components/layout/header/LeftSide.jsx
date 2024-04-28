@@ -87,8 +87,8 @@ const LogoWrapper = styled(Link)`
   cursor: pointer;
 
   & svg {
-    width: 7rem;
-    height: 7rem;
+    width: 6rem;
+    height: 6rem;
     border-radius: 50%;
   }
 `;
