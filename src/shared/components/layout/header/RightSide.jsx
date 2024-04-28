@@ -1,18 +1,18 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'gatsby';
+import { RIGHT_NAV_ITEMS } from '../../../constants/RIGHT_NAV_ITEMS';
 
 /** header right side */
 export default function RightSide() {
   return (
     <nav>
       <NavList>
-        <Link to="https://github.com/eonseok-jeon" target="_blank">
-          <NavItem data-hover="GitHub">GitHub</NavItem>
-        </Link>
-        <Link to="https://www.instagram.com/___seeeok/" target="_blank">
-          <NavItem data-hover="Instagram">Instagram</NavItem>
-        </Link>
+        {RIGHT_NAV_ITEMS.map(({ label, link }) => (
+          <Link to={link} target="_blank">
+            <NavItem data-hover={label}>{label}</NavItem>
+          </Link>
+        ))}
       </NavList>
     </nav>
   );
