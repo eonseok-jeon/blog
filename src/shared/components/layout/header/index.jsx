@@ -1,23 +1,25 @@
 import styled from '@emotion/styled';
-import Navigation from './Navigation';
-import Logo from './Logo';
+import LeftSide from './LeftSide';
+import RightSide from './RightSide';
 
 /** Header */
 export default function Header() {
   return (
     <Container>
-      <Logo />
-      <Navigation />
+      <LeftSide />
+      <RightSide />
     </Container>
   );
 }
 
 const Container = styled.header`
+  position: sticky;
+  border-bottom: 1px solid red;
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 14.6rem;
-  padding: 0 10rem;
+  height: 10rem;
+  padding: 0 7%;
   z-index: 10;
 `;
