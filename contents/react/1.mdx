@@ -1,0 +1,534 @@
+---
+title: 'useReducer'
+subTitle: 'useReducer 공부해보기 (스터디 발표 자료)'
+date: '2023-10-19'
+tag: 'React'
+url: 'react-1'
+thumbnail: './imgs/1/1.png'
+thumbnail_alt: 'useReducer 공식 문서 캡쳐 화면'
+---
+
+### useReducer
+
+#### 1. useReducer에 대하여
+
+[React 공식문서 - useReducer 참고.](https://react.dev/reference/react/useReducer)
+
+`useReducer`는 내장된 훅.
+state 관리를 도와주는 측면에서 `useState`와 비슷하다.
+
+하지만 더 많은 기능이 있어, 더 복잡한 state에 특히 유용하다.
+여러 state들이 함께 속해 있는 경우가 그 예이다.
+
+이런 경우에는 `useState`나 거기에서 얻은 state는 종종 사용 및 관리가 어려워지거나 오류가 발생하기 쉽다.
+이때 `useReducer`를 `useState` 대신 쓸 수 있다.
+
+하지만 그렇다고 해서 항상 `useReducer`를 사용해야 한다는 건 아니다.
+더 강력하다고 해서 항상 더 좋다고 할 수는 없다.
+사용하기 조금 더 복잡하기 때문에 조금 더 설정이 필요하다.
+
+따라서 대부분의 경우에는 `useState`를 사용하는 것이 좋다.
+
+#### 2. 예시
+
+email과 password를 입력으로 받음.
+email, password에 대한 유효성 검사를 하고, 통과 못할 시 input 창 색깔이 빨간색으로 변함.
+유효성 검사 통과 시 로그인 버튼 활성화되는 간단한 로그인폼.
+
+이를 하나의 state로 관리하려고 한다.
+
+```jsx
+import React, { useState } from 'react';
+
+import classes from './Login.module.css';
+import Button from '../UI/Button/Button';
+import Card from '../UI/Card/Card';
+
+const Login = () => {
+  const [enteredEmail, setEnteredEmail] = useState('');
+  const [emailIsValid, setEmailIsValid] = useState();
+  const [enteredPassword, setEnteredPassword] = useState('');
+  const [passwordIsValid, setPasswordIsValid] = useState();
+  const [formIsValid, setFormIsValid] = useState(false);
+
+  const emailChangeHandler = (event) => {
+    setEnteredEmail(event.target.value);
+
+    setFormIsValid(
+      event.target.value.includes('@') && enteredPassword.trim().length > 6,
+    );
+  };
+
+  const passwordChangeHandler = (event) => {
+    setEnteredPassword(event.target.value);
+
+    setFormIsValid(
+      enteredEmail.includes('@') && event.target.value.trim().length > 6,
+    );
+  };
+
+  const validateEmailHandler = () => {
+    setEmailIsValid(enteredEmail.includes('@'));
+  };
+
+  const validatePasswordHandler = () => {
+    setPasswordIsValid(enteredPassword.trim().length > 6);
+  };
+
+  return (
+    <Card className={classes.login}>
+      <form>
+        <div
+          className={`${classes.control} ${
+            emailIsValid === false ? classes.invalid : ''
+          }`}
+        >
+          <label htmlFor="email">E-Mail</label>
+          <input
+            type="email"
+            id="email"
+            value={enteredEmail}
+            onChange={emailChangeHandler}
+            onBlur={validateEmailHandler}
+          />
+        </div>
+        <div
+          className={`${classes.control} ${
+            passwordIsValid === false ? classes.invalid : ''
+          }`}
+        >
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            value={enteredPassword}
+            onChange={passwordChangeHandler}
+            onBlur={validatePasswordHandler}
+          />
+        </div>
+        <div className={classes.actions}>
+          <Button type="submit" className={classes.btn} disabled={!formIsValid}>
+            Login
+          </Button>
+        </div>
+      </form>
+    </Card>
+  );
+};
+
+export default Login;
+```
+
+### 사용법
+
+#### 1. 설명
+
+```jsx
+const [state, dispatchFn] = useReducer(reducerFn, initialState, initFn);
+```
+
+`useState`처럼 `useReducer`도 항상 두 개의 값이 있는 배열을 반환한다.
+
+- **state**: 확실히 최신 state 스냅샷.
+- **dispatchFn**: state 스냅샷을 업데이트할 수 있게 해주는 함수. 새로운 state 값을 설정하는 대신 action을 dispatch 한다.
+- **reducerFn**: action이 disaptch 되면 자동으로 trigger 되는 함수. 가장 최신의 state 스냅샷을 받아 새로운 update된 state를 return 해준다.
+  (prevState, action) ⇒ newState, state 스냅샷과 dispatch된 action을 가져온다.
+  reducerFn은 반드시 pure function이어야 한다.
+
+##### pure function이란?
+
+[참고자료](https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-pure-function-d1c076bec976)
+
+1. 같은 입력값에는 항상 같은 출력값이 나와야 한다.
+2. side effect가 없어야 한다.
+
+- **initialState**: 초기 state.
+- **initFn**: 초기 state를 설정하기 위해 실행해야 하는 초기 함수. 초기 state가 좀 더 복잡한 경우(http request의 결과 등) 필요. 필수 아님.
+
+#### 2. 적용
+
+```jsx
+import { useReducer, ... } from 'react';
+
+const Login = () => {
+  ...
+
+  const [emailState, dispatchEmail] = useReducer(() => {}, {
+    value: '',
+    isValid: null
+  })
+
+  ...
+}
+
+export default Login;
+```
+
+useReducer 함수를 이용해서 state 생성 및 초기화.
+
+```jsx
+const Login = () => {
+  ...
+
+  const emailChangeHandler = (event) => {
+    dispatchEmail({ type: 'USER_INPUT', value: event.target.value });
+
+    ...
+  };
+
+  const validateEmailHandler = () => {
+    dispatchEmail({ type: 'INPUT_BLUR' });
+  };
+
+  ...
+}
+```
+
+이제 dispatchFn을 호출하여 state를 업데이트한다. 그리고 그것을 action에 전달.
+
+이 action이 무엇인지는 마음대로 정할 수 있다. (any type)
+NEW_EMAIL_VALUE 같은 문자열 식별자일 수도 있고, 숫자일 수도 있다.
+하지만 convention에 따르면, 보통은 식별자(type)를 갖고 어떤 필드(option)를 가진 객체이다.
+
+dispatchFn은 return value가 없다.
+
+```jsx
+import ...
+
+const emailReducer = (state, action) => {
+  switch (action.type) {
+    case 'USER_INPUT': {
+      return { value: action.value, isValid: action.value.includes('@') };
+    }
+    case 'INPUT_BLUR': {
+      return { value: state.value, isValid: state.value.includes('@') };
+    }
+    default: {
+      throw Error('Unknown action: ' + action.type);
+    }
+  }
+}
+
+const Login = () => {
+  ...
+
+  const [emailState, dispatchEmail] = useReducer(emailReducer, {
+    value: '',
+    isValid: null
+  })
+
+  ...
+}
+
+export default Login;
+```
+
+reducerFn 작성.
+
+reducerFn는 컴포넌트 함수 바깥에서 만듦.
+→ reducerFn 내부에서는 컴포넌트 함수 내부에서 만들어진 어떤 데이터도 필요하지 않기 때문.
+
+useReducer는 useState와 매우 유사하지만 이벤트 핸들러의 상태 업데이트 로직을 구성 요소 외부의 단일 기능으로 이동할 수 있다.
+
+업데이트 로직은 convention에 따르면 switch 구문을 사용한다.
+
+##### 주의할 점
+
+State는 read-only이다.
+
+```javascript
+const emailReducer = (state, action) => {
+  switch (action.type) {
+    case 'USER_INPUT': {
+      state.value = action.value; // (X)
+    }
+
+    ...
+  }
+}
+```
+
+그렇기에 항상 new obj를 return 해줘야 한다.
+
+```javascript
+const emailReducer = (state, action) => {
+  switch (action.type) {
+    case 'USER_INPUT': {
+      return { ...state, value: action.value };
+    }
+
+    ...
+  }
+}
+```
+
+```jsx
+...
+
+const Login = () => {
+  ...
+
+  const passwordChangeHandler = (event) => {
+    ...
+
+    setFormIsValid(
+      emailState.isValid && event.target.value.trim().length > 6
+    );
+  };
+
+  ...
+
+  return (
+    <Card className={classes.login}>
+      <form>
+        <div
+          className={`${classes.control} ${
+            emailState.isValid === false ? classes.invalid : ''
+          }`}
+        >
+          <label htmlFor="email">E-Mail</label>
+          <input
+            type="email"
+            id="email"
+            value={emailState.value}
+            onChange={emailChangeHandler}
+            onBlur={validateEmailHandler}
+          />
+        </div>
+
+        ...
+      </form>
+    </Card>
+  );
+};
+
+export default Login;
+```
+
+전체 코드
+
+```jsx
+import React, { useReducer, useState } from 'react';
+
+import classes from './Login.module.css';
+import Button from '../UI/Button/Button';
+import Card from '../UI/Card/Card';
+
+const emailReducer = (state, action) => {
+  switch (action.type) {
+    case 'USER_INPUT': {
+      return { value: action.value, isValid: action.value.includes('@') };
+    }
+    case 'INPUT_BLUR': {
+      return { value: state.value, isValid: state.value.includes('@') };
+    }
+    default:
+      throw Error('Unknown action: ' + action.type);
+  }
+};
+
+const Login = () => {
+  const [enteredPassword, setEnteredPassword] = useState('');
+  const [passwordIsValid, setPasswordIsValid] = useState();
+  const [formIsValid, setFormIsValid] = useState(false);
+
+  const [emailState, dispatchEmail] = useReducer(emailReducer, {
+    value: '',
+    isValid: null,
+  });
+
+  const emailChangeHandler = (event) => {
+    dispatchEmail({ type: 'USER_INPUT', value: event.target.value });
+
+    setFormIsValid(
+      event.target.value.includes('@') && enteredPassword.trim().length > 6,
+    );
+  };
+
+  const passwordChangeHandler = (event) => {
+    setEnteredPassword(event.target.value);
+
+    setFormIsValid(emailState.isValid && event.target.value.trim().length > 6);
+  };
+
+  const validateEmailHandler = () => {
+    dispatchEmail({ type: 'INPUT_BLUR' });
+  };
+
+  const validatePasswordHandler = () => {
+    setPasswordIsValid(enteredPassword.trim().length > 6);
+  };
+
+  return (
+    <Card className={classes.login}>
+      <form>
+        <div
+          className={`${classes.control} ${
+            emailState.isValid === false ? classes.invalid : ''
+          }`}
+        >
+          <label htmlFor="email">E-Mail</label>
+          <input
+            type="email"
+            id="email"
+            value={emailState.value}
+            onChange={emailChangeHandler}
+            onBlur={validateEmailHandler}
+          />
+        </div>
+        <div
+          className={`${classes.control} ${
+            passwordIsValid === false ? classes.invalid : ''
+          }`}
+        >
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            value={enteredPassword}
+            onChange={passwordChangeHandler}
+            onBlur={validatePasswordHandler}
+          />
+        </div>
+        <div className={classes.actions}>
+          <Button type="submit" className={classes.btn} disabled={!formIsValid}>
+            Login
+          </Button>
+        </div>
+      </form>
+    </Card>
+  );
+};
+
+export default Login;
+```
+
+#### 3. 추가 공부
+
+위의 코드는 수정되어야 하는 부분이 있다. 무엇일까?
+
+```javascript
+const emailChangeHandler = (event) => {
+  dispatchEmail({ type: 'USER_INPUT', value: event.target.value });
+
+  setFormIsValid(
+    event.target.value.includes('@') && enteredPassword.trim().length > 6,
+  );
+};
+```
+
+formIsValid라는 state를 update 할 때, enteredPassword라는 다른 state의 스냅샷에 의존하고 있다.
+
+하지만 enteredPassword는 가장 최근 state 스냅샷이 아닐 수 있다.
+리액트가 state 업데이트를 스케쥴링하는 방식 때문에,
+실제로는 매우 드문 경우지만, 비밀번호 state 업데이트가 처리되기 전 이 코드가 실행될 수도 있기 때문이다.
+
+이런 경우 함수 폼을 사용하는 걸 추천한다.
+
+```javascript
+// 함수 폼 예시
+setStateFn((prev) => !prev);
+```
+
+하지만 여기에서는 사용할 수 없다.
+왜냐하면 다른 state에 의존하고 있기 때문.
+
+이 경우 `useEffect`를 사용해주면 된다.
+
+```javascript
+useEffect(() => {
+  setFormIsValid(emailState.isValid && enteredPassword.trim().length > 6);
+}, [emailState, enteredPassword]);
+```
+
+아래는 더 개선된 버전.
+
+```javascript
+useEffect(() => {
+  setFormIsValid(emailState.isValid && enteredPassword.trim().length > 6);
+}, [emailState.isValid, enteredPassword]);
+```
+
+#### 4. InitFn 사용해 보기
+
+```javascript
+...
+
+const createInitialState = (username) => {
+  const initialTodos = [];
+
+  for (let i = 0; i < 50; i++) {
+    initialTodos.push({
+      id: i,
+      text: username + "'s task #" + (i + 1)
+    });
+  }
+
+  return {
+    draft: '',
+    todos: initialTodos,
+  };
+}
+
+const TodoList = ({ username }) => {
+  const [state, dispatch] = useReducer(
+    () => {},
+    createInitialState(username)
+  );
+
+  ...
+}
+```
+
+위와 같이 구현을 할 수가 있다.
+
+하지만 이때의 문제점은 TodoList component가 re-rendering 될 때마다, createInitialState(username) 함수도 계속 실행이 된다는 것이다.
+이는 성능면에서 비효율적이다.
+
+```jsx
+...
+
+const createInitialState = (username) => {
+  const initialTodos = [];
+
+  for (let i = 0; i < 50; i++) {
+    initialTodos.push({
+      id: i,
+      text: username + "'s task #" + (i + 1)
+    });
+  }
+
+  return {
+    draft: '',
+    todos: initialTodos,
+  };
+}
+
+const TodoList = ({ username }) => {
+  const [state, dispatch] = useReducer(
+    () => {},
+    username,
+    createInitialState
+  );
+
+  ...
+}
+```
+
+다음과 같이 InitFn을 사용해주면 처음 rendering 될 때만 createInitialState 함수가 실행된다.
+
+### useState vs useReducer
+
+[참고자료](https://react.dev/learn/extracting-state-logic-into-a-reducer#comparing-usestate-and-usereducer)
+
+#### 1. useState
+
+- 개별 state 및 데이터들을 다루기에 적합.
+- state 업데이트가 쉽고, 업데이트의 종류가 몇 안 되는 경우에 적합.
+- 코드 양이 `useReducer`보다 적다.
+
+#### 2. useReducer
+
+- state로서의 객체가 있거나 복잡한 state가 있는 경우에 적합.
+- state가 복잡해 질수록 복잡한 state update logic을 **reducerFn**을 활용하여 따로 분리할 수 있어 가독성이 좋아진다.
+- `useState`에 버그가 있으면 상태가 잘못 설정된 위치와 이유를 구분하기가 어려울 수 있다. `useReducer`를 사용하면 콘솔 로그를 **reducerFn**에 추가하여 모든 상태 업데이트를 확인할 수 있고 왜 발생했는지(어떤 작업으로 인해) 확인할 수 있다.

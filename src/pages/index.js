@@ -14,6 +14,7 @@ const IndexPage = ({ data }) => {
   const handleChangeMode = () => {
     setIsDark((prev) => !prev);
   };
+  console.log(data);
 
   return (
     <DarkModeContext.Provider value={isDark}>

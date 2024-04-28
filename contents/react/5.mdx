@@ -1,0 +1,93 @@
+---
+title: 'State Management Libraries'
+subTitle: '상태 관리 라이브러리 비교 분석'
+date: '2023-12-26'
+tag: 'React'
+url: 'react-5'
+thumbnail: './imgs/5/1.png'
+thumbnail_alt: 'useContext 공식 문서 캡쳐 화면'
+---
+
+### Context API
+
+#### 무엇인가?
+
+React 16.3 에서 새롭게 추가된 feature.
+props drilling 없이 components 사이에서 data를 넘겨줄 수 있다.
+
+#### 장점
+
+##### Simplicity
+
+사용하기 쉽다.
+많은 코드가 필요하지 않다.
+이해하기 쉽다.
+
+##### Reduced Boilerplate Code
+
+보일러 코드를 줄일 수 있다.
+
+##### Better Performance
+
+state가 변할 때마다 새로운 state를 create 할 필요가 없기에 Redux보다 빠른 성능을 가진다.
+
+##### Smaller Bundle Size
+
+React의 feature로 project의 bundle size를 줄일 수 있다.
+
+#### 단점
+
+##### Limited Functionality
+
+기능이 제한적이다.
+single store에서 상태를 관리하는데 사용할 수 없다.
+
+##### Lack of Community Support
+
+적은 resource를 가진다.
+
+#### 참고 자료
+
+[Context API Vs Redux: An In-Depth Comparison](https://www.oneclickitsolution.com/blog/context-api-vs-redux/)
+
+### Recoil
+
+#### 무엇인가?
+
+2020년에 Facebook이 개발한 비교적 최신 라이브러리.
+Recoil과 달리 중앙 집중화된 store를 사용하지 않는다.
+대신 atoms를 사용한다. (atom은 state의 unit이다.)
+
+#### 장점
+
+##### Easy to use
+
+사용하고 이해하기 쉽다.
+보일러 플레이트 코드가 적다.
+mutable data structures를 사용하고 있다.
+
+##### Highly flexible
+
+프로젝트의 사이즈와 복잡성과는 상관없이 어떤 React project에 사용할 수 있다.
+
+##### Performance
+
+application의 성능을 향상시키고, re-rendering을 최소화 하는 state managing approach를 사용한다.
+
+##### Type-safe
+
+type-safe 방식을 제공하여, error로 부터 free하다.
+
+#### 단점
+
+##### Learning Curve
+
+쉬운 API를 가지고 있지만, 그래도 이를 사용하기 위해선 추가 학습이 필요하다.
+
+##### Limited Support
+
+상대적으로 최신의 라이브러리라 resource가 적다.
+
+#### 참고 자료
+
+[Redux vs Recoil: A Comprehensive Comparison](https://www.oneclickitsolution.com/blog/redux-vs-recoil/)
