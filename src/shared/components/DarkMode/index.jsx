@@ -1,9 +1,13 @@
 import IcSun from '@assets/icSun.svg';
 import IcMoon from '@assets/icMoon.svg';
 import styled from '@emotion/styled';
+import { useContext } from 'react';
+import { DarkModeContext } from '@contexts/darkModeContext';
 
 /** Light / Dark Mode Button */
-export default function DarkMode({ isDark, onChangeMode }) {
+export default function DarkMode() {
+  const { isDark, onChangeMode } = useContext(DarkModeContext);
+
   return (
     <Container onClick={onChangeMode}>
       {isDark && <IcMoon />}
@@ -14,8 +18,8 @@ export default function DarkMode({ isDark, onChangeMode }) {
 
 const Container = styled.button`
   position: fixed;
-  top: 2rem;
-  right: 2rem;
+  top: 10rem;
+  right: 4rem;
   width: 3rem;
   height: 3rem;
 

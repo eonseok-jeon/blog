@@ -32,8 +32,9 @@ const Container = styled.header`
   width: 100%;
   height: 8rem;
   padding: 0 7%;
-  z-index: 10;
-  background-color: rgba(18, 18, 18, 0.9);
+  z-index: 9999;
+  color: ${({ theme }) => theme.text};
+  background-color: ${({ theme }) => theme.background};
 `;
 
 const MenuButton = styled.button`
