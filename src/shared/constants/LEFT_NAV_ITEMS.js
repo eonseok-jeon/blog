@@ -1,14 +1,14 @@
 export const LEFT_NAV_ITEMS = [
   {
     label: 'Posts',
-    link: '#',
+    link: '/',
   },
   {
     label: '이력서',
-    link: '#',
+    link: '/resume',
   },
   {
     label: '포트폴리오',
-    link: '#',
+    link: '/portfolio',
   },
 ];
