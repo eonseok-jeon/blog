@@ -11,7 +11,7 @@ import global from '@styles/global';
 const isBrowser = typeof window !== 'undefined';
 
 /** main layout */
-export default function Layout({ children }) {
+export default function Layout({ children, isLanding = false }) {
   const getInitialMode = () => {
     if (!isBrowser) return;
 
@@ -45,7 +45,7 @@ export default function Layout({ children }) {
             <Div>
               <Main>{children}</Main>
             </Div>
-            <Footer />
+            {!isLanding && <Footer />}
           </ThemeProvider>
         )}
       </DarkModeContext.Consumer>

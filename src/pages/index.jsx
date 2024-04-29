@@ -1,11 +1,12 @@
 import React from 'react';
 import Layout from '@components/layout/Layout';
+import Landing from '../views/mainPage/components/Landing';
 
 const IndexPage = () => {
   return (
-    <>
-      <Layout></Layout>
-    </>
+    <Layout isLanding={true}>
+      <Landing />
+    </Layout>
   );
 };
 
