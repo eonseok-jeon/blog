@@ -1,7 +1,7 @@
 export const LEFT_NAV_ITEMS = [
   {
     label: 'Posts',
-    link: '/',
+    link: '/posts',
   },
   {
     label: '이력서',
