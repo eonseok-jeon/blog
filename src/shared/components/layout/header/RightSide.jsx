@@ -99,4 +99,17 @@ const NavItem = styled.li`
     max-width: 100%;
     opacity: 1;
   }
+
+  /* 665px */
+  @media screen and (max-width: 41.5625em) {
+    color: #fff;
+
+    &:hover {
+      color: #777;
+    }
+
+    &::before {
+      color: #fff;
+    }
+  }
 `;

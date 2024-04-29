@@ -69,6 +69,7 @@ const NavList = styled.ol`
   @media screen and (max-width: 41.5625em) {
     flex-direction: column;
     gap: 6rem;
+    color: #fff;
   }
 `;
 
