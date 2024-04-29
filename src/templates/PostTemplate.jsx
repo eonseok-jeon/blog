@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 import Layout from '../shared/components/layout/Layout';
 import { MDXProvider } from '@mdx-js/react';
-import { Global } from '@emotion/react';
-import global from '@styles/global';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { graphql } from 'gatsby';
 
@@ -14,7 +12,6 @@ export default function PostTemplate({ children, data }) {
 
   return (
     <>
-      <Global styles={global} />
       <Layout>
         <PostArticle>
           <p>

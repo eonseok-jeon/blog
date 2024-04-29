@@ -5,7 +5,8 @@ import styled from '@emotion/styled';
 import DarkMode from '@components/DarkMode';
 import { darkTheme, lightTheme } from '@styles/theme';
 import { DarkModeContext } from '@contexts/darkModeContext';
-import { ThemeProvider } from '@emotion/react';
+import { Global, ThemeProvider } from '@emotion/react';
+import global from '@styles/global';
 
 const isBrowser = typeof window !== 'undefined';
 
@@ -38,6 +39,7 @@ export default function Layout({ children }) {
       <DarkModeContext.Consumer>
         {({ isDark }) => (
           <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+            <Global styles={global} />
             <DarkMode />
             <Header />
             <Div>

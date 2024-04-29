@@ -1,14 +1,11 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import Layout from '@components/layout/Layout';
-import { Global } from '@emotion/react';
-import global from '@styles/global';
 import Posts from '../views/postsPage/components/Posts';
 
 export default function PostsPage({ data }) {
   return (
     <>
-      <Global styles={global} />
       <Layout>
         <Posts data={data} />
       </Layout>
