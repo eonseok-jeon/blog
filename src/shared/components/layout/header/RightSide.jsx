@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Link } from 'gatsby';
+import { OutboundLink } from 'gatsby-plugin-google-gtag';
 import { RIGHT_NAV_ITEMS } from '../../../constants/RIGHT_NAV_ITEMS';
 import { css } from '@emotion/react';
 
@@ -10,9 +10,9 @@ export default function RightSide({ showMenu }) {
     <Nav showMenu={showMenu}>
       <NavList>
         {RIGHT_NAV_ITEMS.map(({ label, link }) => (
-          <Link to={link} target="_blank">
+          <OutboundLink href={link} target="_blank">
             <NavItem data-hover={label}>{label}</NavItem>
-          </Link>
+          </OutboundLink>
         ))}
       </NavList>
     </Nav>

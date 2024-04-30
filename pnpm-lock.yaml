@@ -20,6 +20,9 @@ dependencies:
   gatsby-plugin-emotion:
     specifier: ^8.13.1
     version: 8.13.1(@babel/core@7.24.4)(@emotion/react@11.11.4)(gatsby@5.13.4)
+  gatsby-plugin-google-gtag:
+    specifier: ^5.13.1
+    version: 5.13.1(gatsby@5.13.4)(react-dom@18.2.0)(react@18.2.0)
   gatsby-plugin-image:
     specifier: ^3.13.1
     version: 3.13.1(@babel/core@7.24.4)(gatsby-plugin-sharp@5.13.1)(gatsby-source-filesystem@5.13.1)(gatsby@5.13.4)(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)
@@ -6185,6 +6188,21 @@ packages:
       '@emotion/babel-preset-css-prop': 11.11.0(@babel/core@7.24.4)
       '@emotion/react': 11.11.4(@types/react@18.2.78)(react@18.2.0)
       gatsby: 5.13.4(babel-eslint@10.1.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)
+    dev: false
+
+  /gatsby-plugin-google-gtag@5.13.1(gatsby@5.13.4)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-aaJKIDwUWwhooJnalse1uvcusBmCwCVK33pp1IrDU02E7IohMen3eR5TsjLbfKO7Z+SbfKJEqUoi/r0ozrJarA==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      gatsby: ^5.0.0-next
+      react: ^18.0.0 || ^0.0.0
+      react-dom: ^18.0.0 || ^0.0.0
+    dependencies:
+      '@babel/runtime': 7.24.4
+      gatsby: 5.13.4(babel-eslint@10.1.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.5)
+      minimatch: 3.1.2
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /gatsby-plugin-image@3.13.1(@babel/core@7.24.4)(gatsby-plugin-sharp@5.13.1)(gatsby-source-filesystem@5.13.1)(gatsby@5.13.4)(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0):
