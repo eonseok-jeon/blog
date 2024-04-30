@@ -11,7 +11,7 @@ function LeftNav({ showMenu }) {
     <Nav showMenu={showMenu}>
       <NavList>
         {LEFT_NAV_ITEMS.map(({ label, link, className = '' }) => (
-          <Link to={link} className={className}>
+          <Link to={link} className={className} key={`${label}+${link}`}>
             <NavItem key={label}>{label}</NavItem>
           </Link>
         ))}

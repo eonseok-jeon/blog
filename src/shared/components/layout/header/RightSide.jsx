@@ -10,7 +10,7 @@ export default function RightSide({ showMenu }) {
     <Nav showMenu={showMenu}>
       <NavList>
         {RIGHT_NAV_ITEMS.map(({ label, link }) => (
-          <OutboundLink href={link} target="_blank">
+          <OutboundLink href={link} target="_blank" key={`${label}-${link}`}>
             <NavItem data-hover={label}>{label}</NavItem>
           </OutboundLink>
         ))}
