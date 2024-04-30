@@ -22,6 +22,7 @@ const Container = styled.button`
   right: 4rem;
   width: 3rem;
   height: 3rem;
+  z-index: 100;
 
   svg {
     width: 3rem;
