@@ -79,7 +79,7 @@ module.exports = {
           // 기본값: https://www.googletagmanager.com
           // origin: 'YOUR_SELF_HOSTED_ORIGIN',
           // 라우트 업데이트에서 페이지뷰 이벤트 처리를 지연시킵니다 (밀리초 단위).
-          delayOnRouteUpdate: '1000ms',
+          delayOnRouteUpdate: 1000,
         },
       },
     },
