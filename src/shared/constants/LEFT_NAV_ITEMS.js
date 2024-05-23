@@ -8,9 +8,9 @@ export const LEFT_NAV_ITEMS = [
     link: '/resume',
     className: 'click-resume',
   },
-  {
-    label: '포트폴리오',
-    link: '/portfolio',
-    className: 'click-portfolio',
-  },
+  // {
+  //   label: '포트폴리오',
+  //   link: '/portfolio',
+  //   className: 'click-portfolio',
+  // },
 ];
