@@ -1,0 +1,320 @@
+---
+title: 'UI library - Chip component 구현'
+subTitle: 'makers design system 참여'
+date: '2024-05-31'
+tag: 'TIL'
+url: 'til-8'
+thumbnail: './imgs/8/1.png'
+thumbnail_alt: 'makers design system 중 Chip에 대한 design'
+---
+
+### button tag 사용
+
+선택이 가능해야 했으므로 button tag로 만들고자 하였다.
+
+```tsx
+// Button.tsx
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
+
+interface ChipProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children?: ReactNode;
+}
+
+function Chip({ children, ...buttonElementProps }: ChipProps) {
+  return (
+    <button type="button" {...buttonElementProps}>
+      <span>{children}</span>
+    </button>
+  );
+}
+
+export default Chip;
+```
+
+위와 같이 틀을 잡아주고, style 코드를 작성했다.
+
+`Chip`은 동적으로 변경되는 부분이 사이즈 밖에 없었기에 이 부분만 따로 빼주고 나머지는 root에 담아주었다.
+`hover`, `active` 상태 시에도 디자인은 동일했기에 `conditions`의 사용은 불필요해 보였다.
+font가 `sm`일 때는 `LABEL_14_SB`를, `md`일 때는 `LABEL_16_SB`를 사용하고 있는데, 이 둘은 `lineHeight`와 `fontSize`만 다르고 나머지 속성들은 동일하여 두 속성만 따로 분리해주었다.
+
+코드는 아래와 같다.
+
+```tsx
+// style.css.ts
+import { createSprinkles, defineProperties } from '@vanilla-extract/sprinkles';
+import { style } from '@vanilla-extract/css';
+import theme from '../theme.css';
+import { fontSizes, lineHeights, paddings } from './constants';
+
+export const root = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '4px',
+  border: '1px solid',
+  borderColor: theme.colors.gray700,
+  borderRadius: '9999px',
+  color: theme.colors.gray300,
+  backgroundColor: theme.colors.gray800,
+  cursor: 'pointer',
+  fontWeight: 600,
+  letterSpacing: -2,
+
+  ':hover': {
+    color: theme.colors.white,
+    backgroundColor: theme.colors.gray700,
+  },
+
+  ':active': {
+    borderColor: theme.colors.gray100,
+    color: theme.colors.white,
+    backgroundColor: theme.colors.gray700,
+  },
+});
+
+const sprinkleProperties = defineProperties({
+  properties: {
+    padding: paddings,
+    fontSize: fontSizes,
+    lineHeight: lineHeights,
+  },
+});
+
+export const sprinkles = createSprinkles(sprinkleProperties);
+```
+
+이때, `constant`로는 동적으로 받을 속성이 사이즈 밖에 없어서 `sm`, `md`일 때의 값들이 어떻게 되는지만 작성하였다.
+
+```tsx
+// constants.ts
+import type { ChipSizeTheme } from './types';
+
+export const paddings: Record<ChipSizeTheme, string> = {
+  sm: '9px 14px',
+  md: '10px 20px',
+};
+
+export const fontSizes: Record<ChipSizeTheme, string> = {
+  sm: '14px',
+  md: '16px',
+};
+
+export const lineHeights: Record<ChipSizeTheme, string> = {
+  sm: '18px',
+  md: '22px',
+};
+```
+
+```tsx
+// type.ts
+export type ChipSizeTheme = 'sm' | 'md';
+```
+
+이를 Chip.tsx에 적용을 해주었다. 이때 추가로 스타일링이 가능하도록 className도 props로 받을 수 있게 해주었다.
+
+```tsx
+...
+
+function Chip({
+  children,
+  className,
+  size = 'sm',
+  ...buttonElementPropsa
+}: ChipProps) {
+  return (
+    <button
+      className={`${root} ${className} ${sprinkles({
+        padding: size,
+        fontSize: size,
+        lineHeight: size,
+      })}`}
+      type='button'
+      {...buttonElementProps}
+    >
+      <span>{children}</span>
+    </button>
+  );
+}
+
+export default Chip;
+```
+
+이제 체크표시를 설정해줄 차례이다. 체크 아이콘은 `mds-icon`을 이용해 주었다. icon이 왼쪽 또는 오른쪽에 뜨거나 아예 없는 경우도 있을 수 있어서 props로 이를 받아올 수 있게 해주었다. (default: none)
+
+icon에 대한 `width`, `height` 할당은 간단해서 inline으로 해주었다.
+
+```tsx
+...
+
+interface ChipProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  ...
+  iconLocation?: 'none' | 'left' | 'right';
+}
+
+function Chip({
+  ...
+  iconLocation = 'none',
+}: ChipProps) {
+  return (
+    <button
+      ...
+    >
+      {iconLocation === 'left' && (
+        <IconCheck style={{ width: '16px', height: '16px' }} />
+      )}
+      <span>{children}</span>
+      {iconLocation === 'right' && (
+        <IconCheck style={{ width: '16px', height: '16px' }} />
+      )}
+    </button>
+  );
+}
+
+export default Chip;
+```
+
+문제는 클릭을 했을 때 체크표시가 계속 떠야하는데, 위와 같이 구현할 경우 클릭한 후 마우스를 떼면 체크박스가 사라졌다. 이를 위해 state로 관리를 하려 하였으나, UI 컴포넌트에 로직을 담고 싶지 않아서 다른 방법을 찾아보기로 하였다.
+
+1. input - checkbox
+2. select & option
+
+### input tag 사용
+
+`checked` 속성을 이용하여 체크 표시를 표현해주고 싶어 1번을 선택하게 되었다.
+
+이때 문제점은 다음과 같았다.
+
+1. checkbox styling 다시 해야 함.
+2. input에는 children 못 옴.
+3. prop으로 `size`라는 속성 사용 못함. (이미 존재하는 속성이므로.)
+
+2, 3은 간단히 해결해 주었다.
+children 대신 prop으로 값을 넘겨주었고, `size` 대신 `chipSize`라는 이름을 사용하였다.
+
+```tsx
+import type { InputHTMLAttributes, ReactNode } from 'react';
+import { IconCheck } from '@sopt-makers/icons';
+import { root, sprinkles } from './style.css';
+
+interface ChipProps extends InputHTMLAttributes<HTMLInputElement> {
+  children?: ReactNode;
+  className?: string;
+  chipSize?: 'sm' | 'md';
+  iconLocation?: 'none' | 'left' | 'right';
+  label: string;
+}
+
+function Chip({
+  className,
+  chipSize = 'sm',
+  iconLocation = 'none',
+  label,
+  ...inputElementProps
+}: ChipProps) {
+  return (
+    <>
+      <input
+        className={`${root} ${className} ${sprinkles({
+          padding: chipSize,
+          fontSize: chipSize,
+          lineHeight: chipSize,
+        })}`}
+        id={label}
+        type="checkbox"
+        {...inputElementProps}
+      />
+      <label htmlFor={label}>{label}</label>
+    </>
+  );
+}
+
+export default Chip;
+```
+
+문제는 1번이었다. checkbox에 대한 스타일링을 해주어야 한다. 이후 체크 표시 icon도 추가해주어야 한다.
+
+할라 했는데 오반거 같다.
+icon을 추가해주는데 방법이 두가지가 있었다.
+
+1. `checkmark` 커스텀하기.
+2. `mds icons`에 사용된 svg 코드를 복사해 와
+   `content: url(svg code)` 에 집어넣기.
+3. `mds icons`로 부터 `<IconCheck />` 받아오기.
+
+1번은 `mds icons`을 써야 했기에 기각.
+
+일단 2번을 하려고 했으나 그러면 `mds icons`가 변경될 때 마다 일일이 코드를 수정해줘야 한다. 이는 라이브러리를 만든 의미가 없어진다.
+
+3번도 문제였다. `<IconCheck />`를 렌더링할 지 안할지 조건부로 처리해줘야 하는데 이건 button 태그를 사용할 때와 동일한 방법을 사용해야 한다. 그거 안 하려고 input `checkbox`로 바꿔줬는데 그러면 안 되지,,
+
+### 다시 button tag로
+
+계속 생각을 해봤는데 마땅히 좋은 방안이 떠오르지 않았고, 또 input `checkbox`로 할 경우 `checkbox` custom 해주기가 상당히 까다로워 button tag를 이용하는 방법보다 훨씬 리소스가 많이 들게 되었다.
+
+결국 다시 button tag로 돌아가기로 결정했다. 그리고 icon을 보여주는 방식으로 `isChecked` prop을 추가하기로 하였다.
+
+```tsx
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { IconCheck } from '@sopt-makers/icons';
+import { checkedStyle, root, sprinkles } from './style.css';
+
+interface ChipProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  ...
+  isChecked?: boolean;
+}
+
+function Chip({
+  isChecked = false,
+  ...buttonElementProps
+}: ChipProps) {
+  return (
+    <button
+      className={`... ${isChecked && checkedStyle}`}
+    >
+      {isChecked && iconLocation === 'left' ? (
+        <IconCheck style={{ width: '16px', height: '16px' }} />
+      ) : null}
+      <span>{children}</span>
+      {isChecked && iconLocation === 'right' ? (
+        <IconCheck style={{ width: '16px', height: '16px' }} />
+      ) : null}
+    </button>
+  );
+}
+
+export default Chip;
+
+```
+
+`isChecked`가 true일 때, `IconCheck`를 렌더링하는 것이다.
+
+이에 대한 동적 스타일링도 필요했다. 그래서 `isChecked`일 때, className으로 `checkedStyle`이 추가되도록 하였고, style.css.ts에 이에 대한 style을 추가시켰다.
+이때, 이미 사용되고 있던 `‘:active’` 상태일 때의 css 속성과 동일하여 이를 공통으로 분리 시켜주었다.
+
+```tsx
+import ...
+
+export const activeStyle = {
+  borderColor: theme.colors.gray100,
+  color: theme.colors.white,
+  backgroundColor: theme.colors.gray700,
+};
+
+export const root = style({
+  ...
+
+  ':active': activeStyle,
+});
+
+export const checkedStyle = style(activeStyle);
+```
+
+정상적으로 작동하는 것을 확인할 수 있었다.
+
+![정상적으로 작동하는 사진](./imgs/8/2.png)
+
+이제 해야 하는 게,
+
+1. icon을 체크박스만 사용하지 않는다면? 에 대한 처리.
+2. storybook 생성.
+3. version up 후 배포.
