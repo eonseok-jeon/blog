@@ -2,9 +2,9 @@
 title: 'UI library - Chip component 구현'
 subTitle: 'makers design system 참여'
 date: '2024-05-31'
-tag: 'TIL'
-url: 'til-8'
-thumbnail: './imgs/8/1.png'
+tag: 'troubleshooting'
+url: 'troubleshooting-2'
+thumbnail: './imgs/2/1.png'
 thumbnail_alt: 'makers design system 중 Chip에 대한 design'
 ---
 
@@ -311,10 +311,144 @@ export const checkedStyle = style(activeStyle);
 
 정상적으로 작동하는 것을 확인할 수 있었다.
 
-![정상적으로 작동하는 사진](./imgs/8/2.png)
+### 동적으로 Icon 추가
 
-이제 해야 하는 게,
+Chip과 관련된 slack message가 왔는데 이를 보고 Chip에 다른 아이콘들이 들어갈 수도 있겠다는 생각이 들었다.
+따라서 동적으로 처리를 해주기로 하였다. 이미 구현되어 있던 Button.tsx를 참고하였다.
 
-1. icon을 체크박스만 사용하지 않는다면? 에 대한 처리.
-2. storybook 생성.
-3. version up 후 배포.
+```tsx
+import type {
+  ButtonHTMLAttributes,
+  CSSProperties,
+  ComponentType,
+  ReactNode,
+} from 'react';
+import { IconCheck } from '@sopt-makers/icons';
+import { checkedStyle, root, sprinkles } from './style.css';
+
+interface IconProps {
+  color?: string;
+}
+
+interface ChipProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  ...
+  Icon?: ComponentType<IconProps>;
+}
+
+function Chip({
+  ...
+  Icon = IconCheck,
+}: ChipProps) {
+  return (
+    <button ...>
+      {isChecked && iconLocation === 'left' ? (
+        <Icon style={{ width: '16px', height: '16px' }} />
+      ) : null}
+      <span>{children}</span>
+      {isChecked && iconLocation === 'right' ? (
+        <Icon style={{ width: '16px', height: '16px' }} />
+      ) : null}
+    </button>
+  );
+}
+
+export default Chip;
+```
+
+Icon을 prop으로 받고, default 값은 check icon으로 설정해 주었다.
+
+이렇게 하니까 style이 정의 되지 않았다고 ts error가 떴다.
+
+```tsx
+interface IconProps {
+  color?: string;
+  style?: CSSProperties;
+}
+```
+
+interface를 위와 같이 수정해주니 에러가 사라졌다.
+
+### 새로운 문제 발생
+
+지금 한 작업은 icon만 동적으로 변경이 될 수 있도록 하는 것이었다.
+하지만 icon이 변경될 시 Chip이 같은 방식으로 동작하지 않는 다는 것이 문제였다.
+
+일단 Checkmark인 경우
+
+1. 클릭 시 checkmark 표시
+2. 클릭 해제 시 checkmark 삭제
+
+위의 과정으로 동작하는데, (또 이렇게 코드를 구현했고)
+icon이 변경될 경우, 클릭을 하든 말든 계속 icon이 표시되어야 했다.
+
+```tsx
+...
+
+function Chip({...}: ChipProps) {
+  return (
+    <button ...>
+      {Icon && iconLocation === 'left' ? (
+        <Icon color={iconColor} style={{ width: '16px', height: '16px' }} />
+      ) : null}
+      {!Icon && isChecked && iconLocation === 'left' ? (
+        <IconCheck
+          color={iconColor}
+          style={{ width: '16px', height: '16px' }}
+        />
+      ) : null}
+      <span>{children}</span>
+      {Icon && iconLocation === 'right' ? (
+        <Icon color={iconColor} style={{ width: '16px', height: '16px' }} />
+      ) : null}
+      {!Icon && isChecked && iconLocation === 'right' ? (
+        <IconCheck
+          color={iconColor}
+          style={{ width: '16px', height: '16px' }}
+        />
+      ) : null}
+    </button>
+  );
+}
+
+export default Chip;
+```
+
+처음에는 위와 같이 코드를 짰다. 너무 가독성이 떨어지는 느낌이었다.
+따라서 render 함수를 생성하여 깔끔하게 수정하기로 하였다.
+
+```tsx
+...
+
+function Chip({...}: ChipProps) {
+  const renderIcon = () => {
+    if (Icon) {
+      return (
+        <Icon color={iconColor} style={{ width: '16px', height: '16px' }} />
+      );
+    }
+
+    if (isChecked) {
+      return (
+        <IconCheck
+          color={iconColor}
+          style={{ width: '16px', height: '16px' }}
+        />
+      );
+    }
+
+    return null;
+  };
+
+  return (
+    <button ...>
+      {iconLocation === 'left' && renderIcon()}
+      <span>{children}</span>
+      {iconLocation === 'right' && renderIcon()}
+    </button>
+  );
+}
+
+export default Chip;
+```
+
+코드가 훨씬 읽기 편하고 깔끔해졌다.
