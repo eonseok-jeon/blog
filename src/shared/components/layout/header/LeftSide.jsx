@@ -64,6 +64,7 @@ const NavList = styled.ol`
   gap: 4.8rem;
   align-items: center;
   justify-content: center;
+  list-style: none;
 
   /* 665px */
   @media screen and (max-width: 41.5625em) {

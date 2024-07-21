@@ -12,9 +12,9 @@ thumbnail_alt: '초기세팅하기'
 
 > 아래 내용은 **React vite**를 기준으로 설명.
 
-### 패키지 매니저 선택하기
+# 패키지 매니저 선택하기
 
-#### 패키지 매니저란?
+## 패키지 매니저란?
 
 패키지의 매니저란 프로젝트의 의존성(종속성, dependencies)을 관리하는 시스템.
 쉽게 말해, 아래의 dependencies를 쉽게 설치 및 수정, 제거, 배포 할 수 있도록 도와주는 것.
@@ -42,13 +42,13 @@ thumbnail_alt: '초기세팅하기'
 // ...
 ```
 
-##### (참고) 의존성이란?
+### (참고) 의존성이란?
 
 "의존성(Dependency)"은 주로 다른 사람이 작성한 것으로, 일반적으로 단일 문제를 해결하는 소프트웨어이다. 웹 프로젝트에는 수많은 의존성이 포함될 수 있다.
 물론 이것을 직접 코딩할 수 있지만, 의존성을 사용하는 이유는
 다른 사람이 이미 이 문제를 해결했을 가능성이 높고, 이미 발명된 것을 다시 만드는 데 시간을 낭비할 필요가 없기 때문이다. 더구나 신뢰할 수 있는 타사 의존성은 다양한 상황에서 테스트되었을 가능성이 높아 자체 솔루션보다 견고하고 여러 브라우저에서 호환성이 더 높을 수 있다.
 
-#### 왜 사용해야 하는가?
+## 왜 사용해야 하는가?
 
 없어도 된다.
 아래의 과정을 일일이 다 할 수 있다면.
@@ -60,41 +60,41 @@ thumbnail_alt: '초기세팅하기'
 5. 패키지의 하위 종속성도 모두 동일한 작업을 수행한다. 이 중에는 수십 개 또는 수백 개가 있을 수 있다.
 6. 패키지를 제거하려면 모든 파일을 다시 제거한다.
 
-#### 어떤 걸 사용해야 하죠?
+## 어떤 걸 사용해야 하죠?
 
 > 💡 코드를 짤 때 어떤 라이브러리, 어떤 시스템을 사용할 지는 모두 개발자에게 달려있다.
 
-#### 참고자료
+## 참고자료
 
-[Package Managers Comparison: Yarn, NPM, PNPM](https://www.cookielab.io/blog/package-managers-comparison-yarn-npm-pnpm)<br />
-[Package management basics - Learn web development | MDN](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Understanding_client-side_tools/Package_management)<br />
-가영님과 수빈님이 정리해주신 패키지 매니저와 각각의 장단점들.
-[일잘하는 매니저 찾습니다(feat. 패키지 매니저)](https://velog.io/@imeureka/일잘하는-매니저-찾습니다feat.-패키지-매니저)
+[Package Managers Comparison: Yarn, NPM, PNPM](https://www.cookielab.io/blog/package-managers-comparison-yarn-npm-pnpm)
+[Package management basics - Learn web development | MDN](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Understanding_client-side_tools/Package_management)
+가영님과 수빈님이 정리해주신 패키지 매니저와 각각의 장단점들. [일잘하는 매니저 찾습니다(feat. 패키지 매니저)](https://velog.io/@imeureka/일잘하는-매니저-찾습니다feat.-패키지-매니저)
 
-### 버전 통일하기
+# 버전 통일하기
 
 nodeJS, 패키지 매니저 등 사용하는 스택 버전 통일하기.
 
-### 라이브러리 / 프레임워크 선택하기
+# 라이브러리 / 프레임워크 선택하기
 
-#### 어떤 걸 사용해야 할까요?
+## 어떤 걸 사용해야 할까요?
 
 마찬가지로 모든 선택은 본인에게 달려있다.
 
-##### 참고자료
+### 참고자료
 
-[10 Best Front end Frameworks for Web Development in 2024](https://www.knowledgehut.com/blog/web-development/front-end-development-frameworks)<br />
+[10 Best Front end Frameworks for Web Development in 2024](https://www.knowledgehut.com/blog/web-development/front-end-development-frameworks)
 [NextJS vs React: 2023년도 프론트엔드 개발을 위해 무엇을 선택해야 하는가?](https://velog.io/@limelimejiwon/NextJS-vs-React-2023년도-프론트엔드-개발을-위해-무엇을-선택해야-하는가)
 
-#### (참고) 작성자의 라이브러리 사용법
+## (참고) 작성자의 라이브러리 사용법
 
-##### 라이브러리 선택 기준
+### 라이브러리 선택 기준
 
 1.  이 라이브러리가 지금 상황에서 꼭 필요한가?
 2.  활발히 사용이 되고 있는 라이브러리인가?
 3.  지속적으로 업데이트가 되고 있는가?
 
 아래는 활발히 사용되면서 지속적으로 업데이트 되고 있는 라이브러리 예시.
+
 ![인기 있는 라이브러리 npm.js 캡처화면](./imgs/2/2.png)
 
 아래는 그 반대 예시.
@@ -103,7 +103,7 @@ nodeJS, 패키지 매니저 등 사용하는 스택 버전 통일하기.
 
 그 외. 공식문서가 잘 되어있는지, 다른 기능이랑 호환이 잘 되는지 등등.
 
-##### 무분별한 라이브러리의 사용은 지양해야 한다. 왜죠?
+### 무분별한 라이브러리의 사용은 지양해야 한다. 왜죠?
 
 - **성능 이슈**
 
@@ -129,16 +129,16 @@ nodeJS, 패키지 매니저 등 사용하는 스택 버전 통일하기.
 
 라이브러리의 라이선스 조건을 준수해야 한다. 너무 많은 라이브러리를 사용하면 라이선스 관련 문제가 발생할 수 있으며, 이는 법적 문제로 이어질 수 있다.
 
-##### 라이브러리 잘 활용하기
+### 라이브러리 잘 활용하기
 
 1.  공식 문서를 잘 읽어본다.
 2.  라이브러리의 기능을 최대한 활용한다.
 
-#### 참고자료
+## 참고자료
 
 [[오늘의 FE] 라이브러리 선택의 기준](https://playground.sopt.org/feed/170)
 
-### 기본 설치 시 생긴 불필요한 파일들 삭제
+# 기본 설치 시 생긴 불필요한 파일들 삭제
 
 React-vite를 이용하여 만들어진 scaffolding.
 
@@ -147,9 +147,9 @@ React-vite를 이용하여 만들어진 scaffolding.
 각 파일과 폴더들이 어떤 역할을 하는지 파악해야 하며,
 프로젝트와 관련이 없다고 판단이 되는 경우 제거하는 것이 좋다.
 
-### 메타 정보 등 초기 코드 수정
+# 메타 정보 등 초기 코드 수정
 
-#### 메타 정보 수정
+## 메타 정보 수정
 
 초기 index.html 코드는 아래와 같다.
 
@@ -186,7 +186,7 @@ favicon 지정.
 
 ![favicon](./imgs/2/5.png)
 
-##### 참고
+### 참고
 
 여러 기기들에 대응되는 favicon을 설정해주면 좋다. (최적화)
 
@@ -245,7 +245,7 @@ started with developing web sites and applications."
 - **`<title>Vite + React</title>`**
   ![title 캡처 화면](./imgs/2/6.png)
 
-##### OG image
+### OG image
 
 - OG image란?
 
@@ -277,56 +277,56 @@ _OG 이미지와 메타 정보 예시_
 <meta property="og:image:height" content="400" />
 ```
 
-이 외에도 많은 메타 data를 제공할 수 있다. 참고 ([Meta Tag , OG(오픈그래프) 사용하기](https://velog.io/@byeol4001/Meta-Tag-OG%EC%98%A4%ED%94%88%EA%B7%B8%EB%9E%98%ED%94%84-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0))
+이 외에도 많은 메타 data를 제공할 수 있다. [Meta Tag , OG(오픈그래프) 사용하기](https://velog.io/@byeol4001/Meta-Tag-OG%EC%98%A4%ED%94%88%EA%B7%B8%EB%9E%98%ED%94%84-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0)
 
-#### 참고자료
+## 참고자료
 
-[head 태그에는 무엇이 있을까? HTML의 메타데이터 - Web 개발 학습하기 | MDN](https://developer.mozilla.org/ko/docs/Learn/HTML/Introduction_to_HTML/The_head_metadata_in_HTML)<br />
+[head 태그에는 무엇이 있을까? HTML의 메타데이터 - Web 개발 학습하기 | MDN](https://developer.mozilla.org/ko/docs/Learn/HTML/Introduction_to_HTML/The_head_metadata_in_HTML)
 [What is og:Image? How to Automatically Generate OG Image?](https://popupsmart.com/blog/auto-generate-open-graph-image#what-is-an-open-graph-image)
 
-### lint 설정
+# lint 설정
 
 `linting` 이란 프로그램적 및 스타일적 오류를 자동으로 확인하는 것.
 
-#### 왜 필요한가?
+## 왜 필요한가?
 
-linting은 오류를 줄이고 코드의 전반적인 품질을 향상시키는 데 중요하다.<br />
-이를 통해 소스 코드를 일관되게 유지하고 코드 검토를 향상시킬 수 있다.<br />
+linting은 오류를 줄이고 코드의 전반적인 품질을 향상시키는 데 중요하다.
+이를 통해 소스 코드를 일관되게 유지하고 코드 검토를 향상시킬 수 있다.
 린트 도구를 사용하면 오류를 더 빨리 발견하여 개발 속도를 가속화하고 비용을 절감할 수 있다.
 
-#### ESLint
+## ESLint
 
 ESLint는 JavaScript 코드에서 오류나 잠재적인 문제를 탐지하고 실용적인 스타일 가이드를 적용하는 정적 코드 분석 도구.
 (정적 코드 분석은 소스 코드를 실행하지 않고도 코드의 문제를 식별하고 개선할 수 있는 기능을 제공한다.)
 
 [ESLint 공식문서](https://eslint.org/)
 
-#### Prettier
+## Prettier
 
 코드의 일관된 스타일과 가독성을 유지하도록 도와주는 코드 포맷팅 도구.
 
 [Prettier 공식문서](https://prettier.io/)
 
-#### Stylelint
+## Stylelint
 
 css, scss, css-in-js와 같은 style에 규칙을 정의할 수 있는 lint. style 오류를 방지하여, style이 적용되지 않는 현상이 발생할 확률을 줄여준다.
 
 [Stylelint 공식문서](https://stylelint.io/#:~:text=A%20mighty%20CSS%20linter%20that%20helps%20you%20avoid%20errors%20and%20enforce%20conventions.)
 
-#### Husky와 lint-staged
+## Husky와 lint-staged
 
-**Husky**: 코드를 커밋하거나 git에 코드를 푸시하기 전에 명령 또는 스크립트를 실행할 수 있는 사전 커밋 도구.<br />
+**Husky**: 코드를 커밋하거나 git에 코드를 푸시하기 전에 명령 또는 스크립트를 실행할 수 있는 사전 커밋 도구.
 **lint-staged**: Husky에 의해 커밋하기 전에 스테이징된 파일을 서식 지정하는 사전 커밋 스크립트로 실행될 수 있다.
 
-[Husky 공식문서](https://typicode.github.io/husky/)<br />
+[Husky 공식문서](https://typicode.github.io/husky/)
 [lint-staged GitHub 레포](https://github.com/lint-staged/lint-staged)
 
-##### 참고
+### 참고
 
-[Complete guide to ESLint, Prettier, husky and lint-staged](https://dev.to/shashwatnautiyal/complete-guide-to-eslint-prettier-husky-and-lint-staged-fh9)<br />
+[Complete guide to ESLint, Prettier, husky and lint-staged](https://dev.to/shashwatnautiyal/complete-guide-to-eslint-prettier-husky-and-lint-staged-fh9)
 [Stylelint와 Husky](https://eonseok-blog.vercel.app/til-1/)
 
-### .gitignore 설정
+# .gitignore 설정
 
 npm create vite@latest, CRA, creat-next-app 등의 scaffolding을 이용하면,
 알아서 .gitignore 파일을 생성해준다.
@@ -358,22 +358,21 @@ dist-ssr
 *.sw?
 ```
 
-#### 참고
+## 참고
 
 사용하는 언어나 OS, editor 등을 입력하면 .gitignore를 자동으로 생성해주는 사이트.
 [gitignore.io](https://www.toptal.com/developers/gitignore)
 
-### 폴더 구조 설정
+# 폴더 구조 설정
 
-리액트는 파일/디렉토리 구조에 관해서 "옳은" 방법은 없다.<br />
-지역성을 기준으로, 혹은 기능을 기준으로, 혹은 url을 기준으로 다양한 방법이 존재한다.<br />
+리액트는 파일/디렉토리 구조에 관해서 "옳은" 방법은 없다.
+지역성을 기준으로, 혹은 기능을 기준으로, 혹은 url을 기준으로 다양한 방법이 존재한다.
 본인이 여러 방식을 사용해 보고 각각의 장단점을 몸소 체험해 보는 것이 좋다.
-
 [Delightful React File/Directory Structure](https://www.joshwcomeau.com/react/file-structure/#tradeoffs-10)
 
-### CSS 초기화 및 Global CSS 작성
+# CSS 초기화 및 Global CSS 작성
 
-#### 왜 써야 하는가?
+## 왜 써야 하는가?
 
 브라우저에 기본적으로 설정되어 있는 CSS 속성들이 있다.
 
@@ -388,7 +387,7 @@ dist-ssr
 내가 원하는 결과와 다른 결과가 초래될 수 있다.
 나는 margin을 준 적이 없는데 실제로는 margin이 들어가기 때문!
 
-#### CSS Normalize
+## CSS Normalize
 
 아무런 추가 스타일링 없이 normal CSS 속성만 적용.
 브라우저의 내장 스타일을 최대한 건들지 않는 선에서 브라우저 간에 상이한 부분만 스타일을 통일시켜 준다.
@@ -396,7 +395,7 @@ dist-ssr
 ![css normalize가 적용된 화면](./imgs/2/10.png)
 _css normalize가 적용된 화면_
 
-#### CSS Reset
+## CSS Reset
 
 브라우저가 자체적으로 모든 HTML 요소에 적용해준 모든 스타일 제거.
 
@@ -406,13 +405,13 @@ _css reset이 적용된 화면_
 내가 사용하는 Reset CSS:
 [Elad Shechter’s CSS Reset](https://elad2412.github.io/the-new-css-reset/)
 
-##### 참고자료
+### 참고자료
 
 [CSS Normalize와 CSS Reset](https://www.daleseo.com/css-normalize-reset/)
 
-### Alias 및 Path 설정
+# Alias 및 Path 설정
 
-#### 왜 해야 하는 걸까?
+## 왜 해야 하는 걸까?
 
 ```jsx
 import Buriburizaemon from '../../../../../../assets/images/Buriburizaemon.png';
@@ -435,7 +434,7 @@ export default function MainImage() {
 
 하지만 필수는 아니다.
 
-#### 어떻게 설정하는가?
+## 어떻게 설정하는가?
 
 vite.config.js 파일에 alias 설정.
 
@@ -466,22 +465,22 @@ export default defineConfig({
 typescript를 사용하면 tsconfig.json 파일에 추가로 설정이 필요하는 등
 사용하는 언어에 따라 설정이 달라지므로 본인의 상황에 맞게, 찾아서 설정을 해주면 된다.
 
-#### tradeoffs
+## tradeoffs
 
 alias의 사용은 표준이 아니다. 네이티브 JavaScript import에서 벗어나서 사용자 정의 작업을 수행하는 것.
 따라서 third-party 서비스에서 코드를 사용하는 것이 더 어려워질 수 있다. Storybook과 같은 컴포넌트 라이브러리를 빌드하거나 Jest로 유닛 테스트를 작성하려는 경우 이러한 도구가 alias를 이해하도록 구성해야 한다.
 
-### 코딩 컨벤션 정리
+# 코딩 컨벤션 정리
 
 naming convention,
 JS convention,
 commit convention,
 PR convention 등등...
 
-#### 참고자료
+## 참고자료
 
 [Airbnb React/JSX Style Guide](https://github.com/airbnb/javascript/tree/master/react)
 
-### GitHub repo 생성 및 연결
+# GitHub repo 생성 및 연결
 
 [Creating a new repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository)

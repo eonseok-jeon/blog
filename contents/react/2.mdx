@@ -8,7 +8,7 @@ thumbnail: './imgs/2/1.png'
 thumbnail_alt: 'useEffect 공식 문서 캡쳐 화면'
 ---
 
-#### 왜 사용할까?
+## 왜 사용할까?
 
 side effect를 처리하기 위해.
 side effect는 직접적으로 컴포넌트 함수 안에 들어가면 안 된다. 버그나 무한 루프가 발생할 수 있기 때문.
@@ -33,7 +33,7 @@ export default App;
 
 따라서 이를 방지하고자 side effect를 처리하는 도구가 필요. ⇒ `useEffect` 훅.
 
-### 사용법
+# 사용법
 
 ```jsx
 useEffect(setup, dependencies?);
@@ -47,9 +47,9 @@ useEffect(setup, dependencies?);
   이 `dependencies`의 값이 변경될 때마다 `setup` 함수가 다시 실행된다.
 - `useEffect` 함수는 `undefined`를 반환한다.
 
-### 실행되는 경우
+# 실행되는 경우
 
-#### 종속성 없는 경우
+## 종속성 없는 경우
 
 ```jsx
 useEffect(() => {
@@ -60,7 +60,7 @@ useEffect(() => {
 - 처음 마운트 되었을 때 실행된다.
 - state가 업데이트 되어 재렌더링될 때마다 실행된다.
 
-#### 빈 종속성 배열을 갖는 경우
+## 빈 종속성 배열을 갖는 경우
 
 ```jsx
 useEffect(() => {
@@ -70,7 +70,7 @@ useEffect(() => {
 
 - 처음 마운트되고 렌더링될 때만 실행된다.
 
-#### 종속성이 추가된 경우
+## 종속성이 추가된 경우
 
 ```jsx
 useEffect(() => {
@@ -81,7 +81,7 @@ useEffect(() => {
 - 처음 마운트 되었을 때 실행된다.
 - 의존성에 추가된 state가 변경될 때마다 실행된다.
 
-#### clean up 함수
+## clean up 함수
 
 ```jsx
 useEffect(() => {
@@ -97,7 +97,7 @@ useEffect(() => {
 - 의존성에 추가된 state가 변경될 때, 가장 먼저 실행이 된다.
 - 컴포넌트가 언마운트 될 때 실행된다.
 
-#### 정리
+## 정리
 
 1. `setup` code는 컴포넌트가 페이지에 추가될 때(마운트될 때) 실행된다.
 2. 컴포넌트가 재렌더링되고 종속성(`dependencies`)이 변경된 경우:
@@ -117,7 +117,7 @@ useEffect(() => {
 >
 > 다시 말해, 자주 `setup` 및 `cleanup`을 실행해도 Effect는 올바르게 작동해야 한다.
 
-### 주의할 점
+# 주의할 점
 
 ```jsx
 import { useState, useEffect } from 'react';
@@ -187,7 +187,7 @@ export default function App() {
 
 ChatRoom 컴포넌트의 각 렌더링에서 options 객체가 처음부터 다시 생성된다. React는 이 options 객체가 이전 렌더링 중에 생성된 options 객체와 다른 객체임을 감지한다. 이것이 options에 종속된 `Effect`를 다시 동기화하고, 채팅이 입력하는 대로 다시 연결하는 이유이다.
 
-##### 참고
+### 참고
 
 ```jsx
 const str1 = 'apple';
@@ -288,9 +288,9 @@ function ChatRoom({ options }) {
 
 구조분해할당을 통해 종속성을 추가해주면 된다.
 
-### 불필요한 useEffect 줄이기
+# 불필요한 useEffect 줄이기
 
-#### 불필요한 object dependencies 줄이기
+## 불필요한 object dependencies 줄이기
 
 ```jsx
 useEffect(() => {
@@ -327,7 +327,7 @@ const formIsValid = emailState.isValid && passwordIsValid;
 렌더링 중에 자동으로 계산이 된다.
 이렇게 했을 시, 추가로 발생하는 연쇄 업데이트를 피하며, 코드가 빨라지고, 더 간결해진다.
 
-#### 이전 state값을 통하여 state 업데이트하기
+## 이전 state값을 통하여 state 업데이트하기
 
 `useEffect` 내에서 prev state를 통해 state를 업데이트 하고 싶은 경우.
 아래는 숫자가 1초에 하나씩 증가하는 컴포넌트이다.
@@ -363,7 +363,7 @@ const Counter = () => {
   }, []);
 ```
 
-#### Prop 변화에 따른 state 변경
+## Prop 변화에 따른 state 변경
 
 부모로 부터 items를 받고, 이 값이 변경될 때마다 selection state를 null로 바꿔주는 간단한 로직.
 
@@ -420,7 +420,7 @@ useEffect 사용하기 전에 고려하면 좋은 것
 - rendering 중에 calculate 할 수 있는지
 - key를 이용하여 모든 state를 reset 할 수 있는지
 
-##### key를 이용한다는 건 뭔 소린가요? 🐕
+### key를 이용한다는 건 뭔 소린가요? 🐕
 
 userId 별로 각각의 comment를 달기 위해 comment를 초기화 해준다. 뭐가 문제일까?
 
@@ -465,7 +465,7 @@ userId를 key로 전달해준다.
 <Profile key={id} userId={id} />
 ```
 
-#### 캐싱 비용 줄이기
+## 캐싱 비용 줄이기
 
 부모로부터 **todos**와 **filter** 값을 넘겨 받아, 이 값들이 변경될 때 마다 **getFilteredTodos**(**todos**, **filter**); 함수를 실행시키고 결과값을 변수에 저장해 렌더링 하고 싶다고 하자.
 
@@ -520,7 +520,7 @@ const TodoList = ({ todos, filter }) => {
 하지만 예전 값과 비교를 하는데도 상당 비용이 소요가 된다.
 따라서 개발자가 경중을 잘 판단하여, `useMemo`를 사용해야 한다.
 
-### 그럼 calculation이 expensive한지 어떻게 구분할 수 있을까?
+# 그럼 calculation이 expensive한지 어떻게 구분할 수 있을까?
 
 일반적으로 수천 개의 객체를 생성하거나 반복하지 않는 한, 대부분 비싼 작업이 아닐 것이다.
 하지만 객관적인 수치로 평가를 하고 싶다면
@@ -536,24 +536,17 @@ console.timeEnd('filter array');
 전체 로그된 시간이 상당하면 (예: 1ms 이상), 해당 계산을 캐싱하는 것이 합리적일 수 있다.
 실험으로 useMemo로 계산을 래핑하여 해당 상호 작용에 대한 전체 로그된 시간이 감소했는지 확인할 수 있다.
 
-##### 주의할 점
+### 주의할 점
 
 - useMemo는 첫 번째 렌더링을 빠르게 만들지 않는다. 업데이트에서 불필요한 작업을 건너 뛰도록 도와주는 것이다.
 - 머신이 사용자보다 빠를 것이라는 점을 명심해야 한다. 따라서 성능을 인위적으로 늦추는 것이 좋다. (예: Chrome에서의 CPU Throttling 옵션).
 - 개발 환경에서 성능을 측정하면 가장 정확한 결과를 제공하지 않을 수 있다. (예: Strict Mode가 켜져 있을 때, 컴포넌트가 한 번이 아닌 두 번 렌더링된다.) 가장 정확한 타이밍을 얻으려면 프로덕션용으로 앱을 빌드하고 사용자와 같은 장치에서 테스트해야 한다.
 
-### 참고자료
+# 참고자료
 
 [useEffect – React](https://react.dev/reference/react/useEffect#reading-the-latest-props-and-state-from-an-effect)
-
 [Synchronizing with Effects – React](https://react.dev/learn/synchronizing-with-effects)
-
 [You Might Not Need an Effect – React](https://react.dev/learn/you-might-not-need-an-effect)
-
 [Removing Effect Dependencies – React](https://react.dev/learn/removing-effect-dependencies)
-
-### 참고해 보면 좋을 자료
-
 [Lifecycle of Reactive Effects – React](https://react.dev/learn/lifecycle-of-reactive-effects)
-
 [Separating Events from Effects – React](https://react.dev/learn/separating-events-from-effects)

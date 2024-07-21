@@ -108,6 +108,15 @@ const Content = styled.article`
     }
   }
 
+  p:has(> a:first-child + a) {
+    display: flex;
+    flex-direction: column;
+
+    a:not(:has(img)) {
+      width: fit-content;
+    }
+  }
+
   ol,
   ul {
     display: flex;
@@ -115,6 +124,7 @@ const Content = styled.article`
     gap: 1.5rem;
     padding: 0 0 0 4rem;
     margin: 1.5rem 0;
+    font-size: 1.8rem;
   }
 
   li > ul {
@@ -146,6 +156,13 @@ const Content = styled.article`
     color: ${({ theme }) => theme.codeColor};
   }
 
+  p:has(+ pre),
+  p:has(+ ol),
+  p:has(+ ul),
+  p:has(+ del) {
+    margin: 3.2rem 0;
+  }
+
   pre {
     padding: 2rem;
     background-color: ${({ theme }) => theme.preBackground};
@@ -153,6 +170,8 @@ const Content = styled.article`
   }
 
   pre > code {
+    white-space: pre-wrap;
+    word-break: break-all;
     font-size: 1.6rem;
     background: none;
     color: ${({ theme }) => theme.text};
