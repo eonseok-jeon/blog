@@ -8,12 +8,10 @@ thumbnail: './imgs/6/1.png'
 thumbnail_alt: 'lighthouse 결과 점수 캡처 화면'
 ---
 
-<br />
-
 랜딩 페이지 접속 시 이미지가 느리게 뜨는 현상 발생.
 이를 해결하기 위해 이미지 최적화를 하기로 결정하였다.
 
-### Lighthouse
+# Lighthouse
 
 이를 위한 지표를 측정하기 위해 구글 크롬의 `lighthouse` 도구를 사용하였다.
 
@@ -23,11 +21,11 @@ thumbnail_alt: 'lighthouse 결과 점수 캡처 화면'
 
 성능 총점은 61점이고, 10.1MB의 리소스가 모두 렌더링 되었을 시 405ms가 소요 되었다.
 
-### 이미지 최적화
+# 이미지 최적화
 
 lighthouse는 친절하게도 어디서 점수가 감점 되었는지 알려주었다.
 
-#### 이미지 사이즈 조절
+## 이미지 사이즈 조절
 
 ![lighthouse 피드백 캡처 화면](./imgs/6/3.png)
 
@@ -47,14 +45,14 @@ lighthouse는 친절하게도 어디서 점수가 감점 되었는지 알려주�
 
 따라서, 랜딩 페이지에 필요한 이미지들은 `x1`로 재추출한 뒤 교체해 주었다.
 
-##### x1의 문제점
+### x1의 문제점
 
 ![화질이 굉장히 낮게 렌더링 되는 이미지](./imgs/6/5.png)
 
 그렇게 하니 용량은 많이 줄었으나, 페이지 확대 시 위와 같이 이미지가 깨지는 문제가 발생했다.
 따라서, 더 큰 사이즈로 이미지를 추출해야 했다.
 
-##### 이미지 사이즈 테스트
+### 이미지 사이즈 테스트
 
 그렇다면 몇 배의 크기로 이미지를 추출해야 할 지 테스트를 해보았다.
 [이미지 배율 조절 사이트](https://www.iloveimg.com/ko/resize-image)를 이용하여, `x2`로 만들어보았다.
@@ -71,7 +69,7 @@ lighthouse는 친절하게도 어디서 점수가 감점 되었는지 알려주�
 
 당근 역시 `x3` 정도의 비율로 이미지를 추출한 것을 확인할 수 있었다.
 
-#### 이미지 용량 줄이기
+## 이미지 용량 줄이기
 
 ![콘텐츠가 포함된 최대 페인트 요소에서 점수가 낮은 것을 확인할 수 있다.](./imgs/6/7.png)
 
@@ -86,7 +84,7 @@ lighthouse는 친절하게도 어디서 점수가 감점 되었는지 알려주�
 
 간혹 압축을 하는 과정에서 이미지의 색이 회색으로 바뀌거나 하는 경우가 있었는데, 이런 경우엔 압축을 하지 않았다.
 
-#### 차세대 이미지 파일 사용
+## 차세대 이미지 파일 사용
 
 압축을 하지 않을 경우, 파일 사이즈가 상당히 커서 (최대 1~2MB) 이를 다른 방식으로 해결해 주어야 했다.
 lighthouse가 추천해준 방법은 차세대 이미지 파일인 `WebP`나 `AVIF`를 이용하는 것이었다.
@@ -110,7 +108,7 @@ lighthouse가 추천해준 방법은 차세대 이미지 파일인 `WebP`나 `AV
 확실히 압축이 더 되는 것을 확인할 수 있었다.
 물론 WebP 이미지도 [사이트](https://imagecompressor.11zon.com/ko/compress-webp/)를 이용하여 한 번 더 압축해 주었다.
 
-##### WebP의 문제점
+### WebP의 문제점
 
 이런 `WebP`의 문제점은 모든 브라우저에서 `WebP`를 지원하는 것은 아니라는 것이었다.
 따라서 지원하지 않는 브라우저를 위한 또 다른 처리가 필요했다.
@@ -145,7 +143,7 @@ lighthouse가 추천해준 방법은 차세대 이미지 파일인 `WebP`나 `AV
 
 참고로 `picture` tag 안에는 `img` tag가 꼭 들어가야 한다고 한다.
 
-##### background image도 WebP로 변경
+### background image도 WebP로 변경
 
 img를 모두 `png`에서 `WebP`로 변경해 주었다.
 그런데 한 가지 문제점은 `img`tag가 아닌 `background-image` 속성을 사용한 곳에서는 `picture` tag 사용이 조금 어렵다는 것이었다.
@@ -182,13 +180,13 @@ background-image: url(${isWebPSupported() ? webpFrame1MovingBg : imgFrame1Moving
 
 이와 같은 방법으로 모든 이미지 파일을 `WebP`로 바꿔주었다.
 
-#### 좀 더 참고해 볼 만한 것
+## 좀 더 참고해 볼 만한 것
 
 [Largest Contentful Paint (LCP): What It Is & How to Improve It](https://www.semrush.com/blog/lcp/)
 
 [React Image Optimization: A Guide for Web Developers](https://imagekit.io/blog/react-image-optimization/)
 
-### lazy loading
+# lazy loading
 
 [Lazy loading - Web performance | MDN](https://developer.mozilla.org/en-US/docs/Web/Performance/Lazy_loading#fonts)
 
@@ -251,7 +249,7 @@ const App = () => {
 };
 ```
 
-##### 더 알아볼 것
+### 더 알아볼 것
 
 위와 같은 지표는 내가 `localhost`에서 `lighthoue`를 돌렸을 때의 얘기였다.
 하나, 나중에 실제 배포된 사이트에서 이미지 최적화 전후 비교를 해보기 위해 다시 `lighthouse`를 돌려봤을 때는 위와 같은 오류가 뜨지 않았었다.
@@ -259,7 +257,7 @@ const App = () => {
 배포가 되는 과정에서 `React vite`가 이를 알아서 처리해 주는 것인지 잘 모르겠지만 그렇다면 `lazy loading`이 필요했을까 라는 의문이 들었다.
 이 부분에 대해선 조금 더 공부가 필요한 거 같다.
 
-### 텍스트 압축
+# 텍스트 압축
 
 ![lighthouse 결과 항목 캡처 화면](./imgs/6/16.png)
 
@@ -288,13 +286,13 @@ const App = () => {
 
 결론은 알아서 해주니 신경 쓸 필요 없는 거 같다는 것이다!
 
-##### 참고해 볼 것
+### 참고해 볼 것
 
 [웹폰트 최적화 하기](https://velog.io/@vnthf/웹폰트-최적화-하기)
 
 [(번역) 이미지 최적화에 대한 명확한 가이드](https://velog.io/@sehyunny/the-definitive-guide-to-image-optimization)
 
-### 결과
+# 결과
 
 ![성능 개선 결과](./imgs/6/18.png)
 
@@ -307,9 +305,9 @@ const App = () => {
 `로드 속도`가 405ms → 326ms
 향상되었다.
 
-### 개선할 점
+# 개선할 점
 
-#### LCP 개선
+## LCP 개선
 
 `LCP`가 아직 오래 걸린다는 문제가 있다.
 
@@ -319,7 +317,7 @@ const App = () => {
 
 [radial-gradient() - CSS: Cascading Style Sheets | MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/radial-gradient)
 
-#### Frame 5 개선
+## Frame 5 개선
 
 ![랜딩페이지 frame 5 캡처 화면](./imgs/6/21.png)
 
@@ -327,7 +325,7 @@ const App = () => {
 `history` refactoring 끝낸 뒤에 코드로 대체할 생각이다.
 그래서 이 부분은 `WebP`로 변경도 하지 않았다.
 
-### 배포 사이트 변경
+# 배포 사이트 변경
 
 배포 사이트를 cloudflare에서 vercel로 변경해 주었다.
 이유는 여러가지가 있었다.
@@ -339,7 +337,7 @@ const App = () => {
 
 성능이 많이 향상된 것을 확인할 수 있었다.
 
-#### 진짜일까?
+## 진짜일까?
 
 사실 위의 이미지 최적화를 진행한 후 시간이 좀 지난 뒤 배포 사이트를 변경했다.
 그렇기에 배포 사이트가 변경이 되어서 점수가 오른 것인지,

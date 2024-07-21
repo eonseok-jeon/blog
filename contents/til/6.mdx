@@ -8,7 +8,7 @@ thumbnail: './imgs/6/1.png'
 thumbnail_alt: '각 브라우저에서 px, em, rem 지원 여부'
 ---
 
-### 시작
+# 시작
 
 ![history response data 구조](./imgs/6/1.png)
 
@@ -79,11 +79,11 @@ const handleFilterSelection = (selectedFilter: filterOptionTypes) => {
 
 그래서 이에 대해 공부를 좀 더 해보기로 하였다.
 
-### FE vs BE
+# FE vs BE
 
 이와 관련된 정보들을 조사하였고 이를 아래에 정리해 보았다.
 
-#### BE에서 해야 한다.
+## BE에서 해야 한다.
 
 > I think in general it is a good principle to avoid doing excessive computation on the client. You don't know if your user is on a top of the range enthusiast PC or a netbook from 10 years ago. Obviously sorting 100 items in an array on its own is probably not going to be noticeable on either computer but...this could end being the first of many things that end up on the front end and before you know it users are complaining and you have a load of little things like this to unpick!
 > Not sure either why you would need two API calls to sort things, could you not just request your list of items be sorted on the initial request?
@@ -114,7 +114,7 @@ data 양이 큰 array라면 또 이걸 성능 안 좋은 컴퓨터에서 돌린�
 
 일반적으로 서버는 정렬 및 (적절한 언어/알고리즘을 사용하여) 문제에 대한 다중 스레드 접근 방식을 제공할 수 있는 더 많은 파워를 가지고 있다. 따라서 서버 측에서 성능에 대한 우려가 없다면 거의 모든 경우에 서버에서 수행하는 것이 좋다.
 
-#### FE에서 해야 한다.
+## FE에서 해야 한다.
 
 > Q. But if I wanted 10 different sort methods for that list of data. That would be 10 different API calls to get the data from the server.
 > The lists won't ever really be past 100 objects. So I guess my question is. Even a shoddy computer would handle that fine I take it?
@@ -137,7 +137,7 @@ n개의 client가 API를 요청할 것이다. 그때마다 정렬해서 주는 �
 데이터가 정렬될 지 말지는 application 딴에서 결정되는 것이므로 거기서 정렬이 발생되게 해라.
 하지만 성능적으로 문제가 발생하는 것이 아니라면 그냥 해라.
 
-#### 정리
+## 정리
 
 FE보다는 BE에서 하는 것이 낫다라는 답변을 더 많이 찾을 수 있었다.
 
@@ -159,7 +159,7 @@ FE보다는 BE에서 하는 것이 낫다라는 답변을 더 많이 찾을 수 
 1. DB에서 정렬을 하는 것이 FE, BE 둘 다 리소스를 줄여줄 것이다.
 2. FE에서 Web Worker를 이용해서 처리하면 비동기적으로 처리할 수 있다.
 
-### 결론
+# 결론
 
 위의 학습한 내용들을 토대로 아래와 같은 결론을 내리게 되었다.
 
@@ -181,10 +181,8 @@ FE보다는 BE에서 하는 것이 낫다라는 답변을 더 많이 찾을 수 
 끙,, 핵꿀마~
 아싸뵹
 
-### 참고자료
+# 참고자료
 
 [sorting small to medium sized data, front-end vs back-end for speed.](https://www.reddit.com/r/softwaredevelopment/comments/r80mng/sorting_small_to_medium_sized_data_frontend_vs/)
-
 [Array sorting in Front-end or Back-end](https://stackoverflow.com/questions/43414603/array-sorting-in-front-end-or-back-end)
-
 [Choosing the best JavaScript sorting algorithm for your project - LogRocket Blog](https://blog.logrocket.com/choosing-javascript-sorting-algorithm/#sorting-algorithms-frontend-vs-backend-systems)

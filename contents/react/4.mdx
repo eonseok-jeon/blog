@@ -8,32 +8,32 @@ thumbnail: './imgs/4/1.png'
 thumbnail_alt: 'Tanstack query 공식 문서 캡쳐 화면'
 ---
 
-### React Query
+# React Query
 
-#### 무엇인가?
+## 무엇인가?
 
 데이터 패칭, 캐싱, 비동기 처리를 이용하여 데이터 handling을 효율적으로 도와주는 React data fetcing library.
 
-#### 특징
+## 특징
 
-##### Automatic Caching
+### Automatic Caching
 
 query parameters를 기반으로 자동으로 data를 캐시하고 무효화한다.
 이는 stale-while-revalidate 전략과 결합될 때 성능을 크게 향상시킬 수 있다.
 stale-while-revalidate → 새로운 정보를 검색하는 동안 stale data를 표시하여 원할한 사용자 경험을 만들어낸다.
 
-##### Intuitive API
+### Intuitive API
 
 loading, success, error 등의 상태를 추적하는 `mutations`라는 개념을 이용하여, 비동기 작업 처리를 단순화 한다.
 이를 이용하면 data를 효율적으로 업데이트하면서, 보일러 플레이트 코드를 줄일 수 있다.
 
-##### Architecture
+### Architecture
 
 data query를 최적화 하는데 중점을 둔 점에서 다른 state 관리 library와 차별화 된다.
 빠르게 API 요청을 fetching, caching 하는 목적으로 설계되었다.
 이런 의도는 서버 통신에 크게 의존하고, 데이터 retrieval 성능 향상시키기 위한 솔루션이 필요한 app에 좋은 선택지가 된다.
 
-#### 장점
+## 장점
 
 - 가볍고 빠르다.
 - 데이터 패칭과 캐싱에 포커스를 둔다.
@@ -41,20 +41,19 @@ data query를 최적화 하는데 중점을 둔 점에서 다른 state 관리 li
 - query parameters로 자동으로 data를 캐싱 및 무효화 한다.
 - React Suspense / Concurrent mode와 잘 융합된다.
 
-#### 단점
+## 단점
 
 - 상대적으로 최신의 라이브러리라 생태계가 아직 크게 갖춰지지 못했다.
 - 데이터 페칭과 캐싱에 중점을 두므로, 복잡한 client state management requirements엔 적합하지 않다.
 
-#### 참고 자료
+## 참고 자료
 
 [React Query vs Redux: A Detailed Comparison for Developers - Frontend Mag](https://www.frontendmag.com/insights/react-query-vs-redux-comparison/)
-
 [React Query vs SWR: Which data-fetching solution is right for you? - StatusNeo](https://statusneo.com/react-query-vs-swr-which-data-fetching-solution-is-right-for-you/)
 
-### SWR
+# SWR
 
-#### 무엇인가?
+## 무엇인가?
 
 useEffect를 사용한 data fetching.
 
@@ -91,85 +90,84 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 const { data, error, isLoading } = useSWR('https://url~', fetcher);
 ```
 
-#### 특징
+## 특징
 
-##### Automatic caching and re-fetching
+### Automatic caching and re-fetching
 
 제공된 key에 기반하여 data를 자동으로 caching 및 re-fetching 한다. 위의 경우 key는 url.
 
-##### Stale-while-revalidate strategy
+### Stale-while-revalidate strategy
 
 요청된 data가 update 되는 동안 cached data를 return 한다. → 사용자 경혐 향상.
 
-##### Error handling
+### Error handling
 
 request가 실패했을 때, 직관적인 error message를 보여줌으로써 error 상태를 쉽게 관리할 수 있다.
 
-#### 장점
+## 장점
 
 기존의 API (ex. REST)와 잘 융합된다.
 
-#### 단점
+## 단점
 
 - data fetchgin process에 대한 매우 specific control이 필요한 경우 적합하지 않다.
 - React Query 보다 성능이 좋진 않다.
 - Suspens점e / Concurrent mode와 함께 사용하려는 경우 예측할 수 없는 결과로 이어질 수 있다. (22.11.26 기준)
 
-#### 참고 자료
+## 참고 자료
 
 [Data Fetching Advantages of SWR](https://medium.com/@mttopak/data-fetching-on-next-js-b111077e514f)
-
 [React Query vs SWR: Which data-fetching solution is right for you? - StatusNeo](https://statusneo.com/react-query-vs-swr-which-data-fetching-solution-is-right-for-you/)
 
-### React Query vs SWR
+# React Query vs SWR
 
-#### Caching
+## Caching
 
 React Query는 component level에서,
 SWR은 routes level에서 caching이 일어난다.
 만약 multiple routes를 가진다면, SWR은 각각의 route에서 각각의 cache를 갖게 된다. 이는 duplicated requests를 초래할 수 있다.
 
-#### Deduplication
+## Deduplication
 
 deduplication이란 같은 request를 여러번 요청할 경우, 오직 하나의 network request만 생성하는 것이다.
 React Query와 SWR 둘 다 deduplication을 지원한다.
 
-#### Request Cancellation
+## Request Cancellation
 
 요청 중 unmount 되었을 때, React Query는 자동으로 request를 취소하여 UI에 stale data가 표시되지 않도록 한다.
 이에 비해, SWR은 22.11.26 기준 해당 기능을 제공하지 않는다. (이와 관련된 issue는 열려있다고 한다.)
 
-#### Pagination
+## Pagination
 
 둘 다 기본적으로 pagination을 제공한다.
 React Query는 초기 query를 수행할 때 어떤 페이지의 결과를 원하는지 지정해야 하지만,
 SWR은 다음 페이지의 결과를 자동으로 가져오는 API가 있다.
 
-#### Features
+## Features
 
 React Query는 자동 재시도, interval하게 refetch하기, caching/suspense 통합, 토큰 취소, global state 관리 등의 기능을 제공하지만
 SWR은 주로 원격 data fetching을 위한 hooks을 제공하는 데 중점을 둔다. data caching 기능이 React Query 만큼 강력하진 않다.
 SWR이 React Query보다 더 많은 기능을 가지고 있다. (ex. polling, pagination)
 
-#### Performance
+## Performance
 
 둘 다 빠르고 효과적인 data fetching을 한다.
 하지만 React Query는 component가 필요한 data가 가져와진 경우에만 re-rendering 하는 반면,
 SWR은 새로운 data가 가져와지면 항상 re-rendering 된다.
 
-#### Ease of use
+## Ease of use
 
 둘 다 약간의 러닝 커브가 있다. 공식 문서는 React Query가 좀 더 새로운 사용자가 시작하기 쉽게 만들어져 있다.
 
-#### 결론
+## 결론
 
 캐싱 구현에 세밀한 제어가 필요하거나 요청 취소를 내장으로 지원해야 하는 경우 React Query,
 더 간단한 API나 자동 pagination 지원이 필요한 경우 SWR이 더 나은 선택일 수 있다.
 
-#### 참고 자료
+## 참고 자료
 
 [React Query vs SWR: Which data-fetching solution is right for you? - StatusNeo](https://statusneo.com/react-query-vs-swr-which-data-fetching-solution-is-right-for-you/)
 
-### data fetching 비교 총 정리
+# data fetching 비교 총 정리
 
 [Comparison | React Query vs SWR vs Apollo vs RTK Query vs React Router | TanStack Query Docs](https://tanstack.com/query/v4/docs/react/comparison)

@@ -8,9 +8,9 @@ thumbnail: './imgs/1/1.png'
 thumbnail_alt: 'useReducer 공식 문서 캡쳐 화면'
 ---
 
-### useReducer
+# useReducer
 
-#### 1. useReducer에 대하여
+## 1. useReducer에 대하여
 
 [React 공식문서 - useReducer 참고.](https://react.dev/reference/react/useReducer)
 
@@ -29,7 +29,7 @@ state 관리를 도와주는 측면에서 `useState`와 비슷하다.
 
 따라서 대부분의 경우에는 `useState`를 사용하는 것이 좋다.
 
-#### 2. 예시
+## 2. 예시
 
 email과 password를 입력으로 받음.
 email, password에 대한 유효성 검사를 하고, 통과 못할 시 input 창 색깔이 빨간색으로 변함.
@@ -119,9 +119,9 @@ const Login = () => {
 export default Login;
 ```
 
-### 사용법
+# 사용법
 
-#### 1. 설명
+## 1. 설명
 
 ```jsx
 const [state, dispatchFn] = useReducer(reducerFn, initialState, initFn);
@@ -135,7 +135,7 @@ const [state, dispatchFn] = useReducer(reducerFn, initialState, initFn);
   (prevState, action) ⇒ newState, state 스냅샷과 dispatch된 action을 가져온다.
   reducerFn은 반드시 pure function이어야 한다.
 
-##### pure function이란?
+### pure function이란?
 
 [참고자료](https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-pure-function-d1c076bec976)
 
@@ -145,7 +145,7 @@ const [state, dispatchFn] = useReducer(reducerFn, initialState, initFn);
 - **initialState**: 초기 state.
 - **initFn**: 초기 state를 설정하기 위해 실행해야 하는 초기 함수. 초기 state가 좀 더 복잡한 경우(http request의 결과 등) 필요. 필수 아님.
 
-#### 2. 적용
+## 2. 적용
 
 ```jsx
 import { useReducer, ... } from 'react';
@@ -232,7 +232,7 @@ useReducer는 useState와 매우 유사하지만 이벤트 핸들러의 상태 �
 
 업데이트 로직은 convention에 따르면 switch 구문을 사용한다.
 
-##### 주의할 점
+### 주의할 점
 
 State는 read-only이다.
 
@@ -403,7 +403,7 @@ const Login = () => {
 export default Login;
 ```
 
-#### 3. 추가 공부
+## 3. 추가 공부
 
 위의 코드는 수정되어야 하는 부분이 있다. 무엇일까?
 
@@ -449,7 +449,7 @@ useEffect(() => {
 }, [emailState.isValid, enteredPassword]);
 ```
 
-#### 4. InitFn 사용해 보기
+## 4. InitFn 사용해 보기
 
 ```javascript
 ...
@@ -517,17 +517,17 @@ const TodoList = ({ username }) => {
 
 다음과 같이 InitFn을 사용해주면 처음 rendering 될 때만 createInitialState 함수가 실행된다.
 
-### useState vs useReducer
+# useState vs useReducer
 
 [참고자료](https://react.dev/learn/extracting-state-logic-into-a-reducer#comparing-usestate-and-usereducer)
 
-#### 1. useState
+## 1. useState
 
 - 개별 state 및 데이터들을 다루기에 적합.
 - state 업데이트가 쉽고, 업데이트의 종류가 몇 안 되는 경우에 적합.
 - 코드 양이 `useReducer`보다 적다.
 
-#### 2. useReducer
+## 2. useReducer
 
 - state로서의 객체가 있거나 복잡한 state가 있는 경우에 적합.
 - state가 복잡해 질수록 복잡한 state update logic을 **reducerFn**을 활용하여 따로 분리할 수 있어 가독성이 좋아진다.

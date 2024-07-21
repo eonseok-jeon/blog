@@ -8,7 +8,7 @@ thumbnail: './imgs/2/1.png'
 thumbnail_alt: 'makers design system 중 Chip에 대한 design'
 ---
 
-### button tag 사용
+# button tag 사용
 
 선택이 가능해야 했으므로 button tag로 만들고자 하였다.
 
@@ -178,7 +178,7 @@ export default Chip;
 1. input - checkbox
 2. select & option
 
-### input tag 사용
+# input tag 사용
 
 `checked` 속성을 이용하여 체크 표시를 표현해주고 싶어 1번을 선택하게 되었다.
 
@@ -247,7 +247,7 @@ icon을 추가해주는데 방법이 두가지가 있었다.
 
 3번도 문제였다. `<IconCheck />`를 렌더링할 지 안할지 조건부로 처리해줘야 하는데 이건 button 태그를 사용할 때와 동일한 방법을 사용해야 한다. 그거 안 하려고 input `checkbox`로 바꿔줬는데 그러면 안 되지,,
 
-### 다시 button tag로
+# 다시 button tag로
 
 계속 생각을 해봤는데 마땅히 좋은 방안이 떠오르지 않았고, 또 input `checkbox`로 할 경우 `checkbox` custom 해주기가 상당히 까다로워 button tag를 이용하는 방법보다 훨씬 리소스가 많이 들게 되었다.
 
@@ -311,7 +311,7 @@ export const checkedStyle = style(activeStyle);
 
 정상적으로 작동하는 것을 확인할 수 있었다.
 
-### 동적으로 Icon 추가
+# 동적으로 Icon 추가
 
 Chip과 관련된 slack message가 왔는데 이를 보고 Chip에 다른 아이콘들이 들어갈 수도 있겠다는 생각이 들었다.
 따라서 동적으로 처리를 해주기로 하였다. 이미 구현되어 있던 Button.tsx를 참고하였다.
@@ -368,7 +368,7 @@ interface IconProps {
 
 interface를 위와 같이 수정해주니 에러가 사라졌다.
 
-### 새로운 문제 발생
+# 새로운 문제 발생
 
 지금 한 작업은 icon만 동적으로 변경이 될 수 있도록 하는 것이었다.
 하지만 icon이 변경될 시 Chip이 같은 방식으로 동작하지 않는 다는 것이 문제였다.
