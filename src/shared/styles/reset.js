@@ -25,6 +25,12 @@ const reset = css`
     box-sizing: border-box;
   }
 
+  body {
+    -webkit-font-smoothing: 'antialiased';
+    -moz-osx-font-smoothing: 'grayscale';
+    font-smooth: 'never';
+  }
+
   /* Reapply the pointer cursor for anchor tags */
   a,
   button {
@@ -32,8 +38,14 @@ const reset = css`
   }
 
   /* Remove list styles (bullets/numbers) */
-  ol,
-  ul,
+  ol {
+    list-style: decimal;
+  }
+
+  ul {
+    list-style: initial;
+  }
+
   menu {
     list-style: none;
   }
