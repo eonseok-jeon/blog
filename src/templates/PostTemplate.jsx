@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import Layout from '../shared/components/layout/Layout';
+import SEO from '../shared/components/SEO';
 import { MDXProvider } from '@mdx-js/react';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { graphql } from 'gatsby';
@@ -28,6 +29,12 @@ export default function PostTemplate({ children, data }) {
     </>
   );
 }
+
+export const Head = ({ data }) => {
+  const { title, subTitle, url } = data.mdx.frontmatter;
+
+  return <SEO title={title} description={subTitle} pathname={url} />;
+};
 
 const PostArticle = styled.article`
   max-width: 104rem;
@@ -219,6 +226,7 @@ export const query = graphql`
         subTitle
         date
         tag
+        url
         thumbnail {
           childImageSharp {
             gatsbyImageData(width: 1040)

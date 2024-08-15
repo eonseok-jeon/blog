@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import Layout from '@components/layout/Layout';
+import SEO from '@components/SEO';
 import Posts from '../views/postsPage/components/Posts';
 
 export default function PostsPage({ data }) {
@@ -12,6 +13,16 @@ export default function PostsPage({ data }) {
     </>
   );
 }
+
+export const Head = () => {
+  return (
+    <SEO
+      title="eonseok blog - posts"
+      description="언석's blog posts"
+      pathname="posts"
+    />
+  );
+};
 
 export const query = graphql`
   query {
