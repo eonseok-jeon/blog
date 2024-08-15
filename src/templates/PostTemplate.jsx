@@ -31,9 +31,16 @@ export default function PostTemplate({ children, data }) {
 }
 
 export const Head = ({ data }) => {
-  const { title, subTitle, url } = data.mdx.frontmatter;
+  const { title, subTitle, url, thumbnail } = data.mdx.frontmatter;
 
-  return <SEO title={title} description={subTitle} pathname={url} />;
+  return (
+    <SEO
+      title={title}
+      description={subTitle}
+      pathname={url}
+      ogImage={thumbnail}
+    />
+  );
 };
 
 const PostArticle = styled.article`

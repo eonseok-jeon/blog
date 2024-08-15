@@ -6,6 +6,7 @@ module.exports = {
     title: `eonseok blog`,
     siteUrl: `https://eonseok-blog.vercel.app/`,
     description: `FE 개발자 전언석의 테크 블로그`,
+    ogImage: './src/shared/assets/imgOg.png',
   },
   plugins: [
     'gatsby-plugin-emotion',

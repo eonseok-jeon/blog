@@ -2,7 +2,13 @@ import React from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 
 /** SEO */
-export default function SEO({ title, description, pathname, children }) {
+export default function SEO({
+  title,
+  description,
+  pathname,
+  ogImage,
+  children,
+}) {
   const data = useStaticQuery(graphql`
     query {
       site {
@@ -10,6 +16,7 @@ export default function SEO({ title, description, pathname, children }) {
           title
           description
           siteUrl
+          ogImage
         }
       }
     }
@@ -18,18 +25,29 @@ export default function SEO({ title, description, pathname, children }) {
   const defaultTitle = data.site.siteMetadata.title;
   const defaultDescription = data.site.siteMetadata.description;
   const siteUrl = data.site.siteMetadata.siteUrl;
+  const defaultOgImage = data.site.siteMetadata.ogImage;
 
   const seo = {
     title: title || defaultTitle,
     description: description || defaultDescription,
     url: `${siteUrl}${pathname || ``}`,
+    ogImage: ogImage || defaultOgImage,
   };
 
   return (
     <>
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={seo.url} />
+      <meta property="og:title" content={seo.title} />
+      <meta property="og:image" content={seo.ogImage} />
+      <meta property="og:description" content={seo.description} />
+      <meta property="og:site_name" content="eonseok's blog" />
+      <meta property="og:locale" content="ko_KR" />
+      <meta property="og:image:width" content="800" />
+      <meta property="og:image:height" content="400" />
       <title>{seo.title}</title>
       <meta name="description" content={seo.description} />
-      <meta name="image" content={seo.image} />
+      <meta name="author" content="Eonseok Jeon" />
       {children}
     </>
   );
