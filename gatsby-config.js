@@ -4,7 +4,8 @@
 module.exports = {
   siteMetadata: {
     title: `eonseok blog`,
-    siteUrl: `https://www.yourdomain.tld`,
+    siteUrl: `https://eonseok-blog.vercel.app/`,
+    description: `FE 개발자 전언석의 테크 블로그`,
   },
   plugins: [
     'gatsby-plugin-emotion',
