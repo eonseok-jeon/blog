@@ -4,15 +4,6 @@ import reset from './reset';
 const global = (theme) => css`
   ${reset}
 
-  * {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-
-    &::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Opera*/
-    }
-  }
-
   html {
     font-size: 62.5%;
     scroll-behavior: smooth;
