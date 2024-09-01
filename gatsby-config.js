@@ -11,6 +11,17 @@ module.exports = {
   plugins: [
     'gatsby-plugin-emotion',
     {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `eonseok blog`,
+        short_name: `eonseok blog`,
+        description: 'FE 개발자 전언석의 테크 블로그',
+        start_url: `/`,
+        icon: './src/assets/icon.png',
+        display: `standalone`,
+      },
+    },
+    {
       resolve: 'gatsby-plugin-react-svg',
       options: {
         rule: {
