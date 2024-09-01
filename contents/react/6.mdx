@@ -309,8 +309,6 @@ const App = () => {
 
 ## LCP 개선
 
-`LCP`가 아직 오래 걸린다는 문제가 있다.
-
 ![moonshot 사이트 background image](./imgs/6/20.png)
 
 이 background-image를 이미지가 아닌 css 속성으로 만들어주면 어떨까 싶다.
@@ -325,24 +323,20 @@ const App = () => {
 `history` refactoring 끝낸 뒤에 코드로 대체할 생각이다.
 그래서 이 부분은 `WebP`로 변경도 하지 않았다.
 
-# 배포 사이트 변경
-
-배포 사이트를 cloudflare에서 vercel로 변경해 주었다.
-이유는 여러가지가 있었다.
-간단히 정리하자만 우리가 원하는 기능들이 cloudflare에선 잘 작동되지 않았다.
-
-배포 사이트를 변경한 후 다시 테스트를 해보았다.
+# 결과
 
 ![lighthouse 결과 캡처 화면](./imgs/6/22.png)
 
 성능이 많이 향상된 것을 확인할 수 있었다.
 
-## 진짜일까?
+초기 로딩 속도도 1~2s 가량 감소하였다.
 
-사실 위의 이미지 최적화를 진행한 후 시간이 좀 지난 뒤 배포 사이트를 변경했다.
-그렇기에 배포 사이트가 변경이 되어서 점수가 오른 것인지,
-내가 이미지 최적화한 것들이 cloudflare에 천천히 반영이 되어서 점수가 나중에 오른 것인지는
-정확하게 구분이 되지 않았다.
-이러한 과정 속에서 서버도 리팩토링을 계속 해왔었기에 서버 측에서 리팩토링 한 결과가 점수에 반영이 되었을 가능성도 나는 있다고 본다.
+import Video1 from './imgs/6/1.mp4';
 
-따라서 배포 사이트 변경이 실제 서비스에 영향을 어느정도 끼치는 지 등에 대한 공부가 추가로 더 필요한 거 같다.
+<video src={Video1} width="95%" controls type="video/mp4" />
+_전_
+
+import Video2 from './imgs/6/2.mp4';
+
+<video src={Video2} width="95%" controls type="video/mp4" />
+_후_
