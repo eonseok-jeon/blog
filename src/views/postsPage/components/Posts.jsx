@@ -18,7 +18,6 @@ export default function Posts(data) {
             subTitle={frontmatter.subTitle}
             date={frontmatter.date}
             tag={frontmatter.tag}
-            url={frontmatter.url}
             thumbnail={frontmatter.thumbnail}
             thumbnailAlt={frontmatter.thumbnail_alt}
           />

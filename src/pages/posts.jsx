@@ -33,7 +33,6 @@ export const query = graphql`
           subTitle
           date(formatString: "MMMM DD, YYYY")
           tag
-          url
           thumbnail_alt
           thumbnail {
             childImageSharp {
