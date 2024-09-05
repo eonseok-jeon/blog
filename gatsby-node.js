@@ -28,7 +28,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             subTitle
             date
             tag
-            url
             thumbnail {
               childImageSharp {
                 gatsbyImageData(width: 1040)
@@ -56,7 +55,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     createPage({
       // As mentioned above you could also query something else like frontmatter.title above and use a helper function
       // like slugify to create a slug
-      path: node.frontmatter.url,
+      path: `${node.frontmatter.tag}-${node.frontmatter.title}`,
       // Provide the path to the MDX content file so webpack can pick it up and transform it into JSX
       // component: node.internal.contentFilePath,
       component: `${postTemplate}?__contentFilePath=${node.internal.contentFilePath}`,
