@@ -4,7 +4,7 @@
 module.exports = {
   siteMetadata: {
     title: `eonseok blog`,
-    siteUrl: `https://eonseok-blog.vercel.app/`,
+    siteUrl: `https://eonseok.site/`,
     description: `FE 개발자 전언석의 테크 블로그`,
     ogImage: './src/shared/assets/imgOg.png',
   },
