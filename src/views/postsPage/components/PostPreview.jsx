@@ -16,7 +16,7 @@ export default function PostPreview({
 
   return (
     <>
-      <Article to={`/${tag}-${mainTitle}`}>
+      <Article to={`/${tag}/${mainTitle}`}>
         <ImgWrapper>
           <GatsbyImage image={image} alt={thumbnailAlt} />
           <Tag>{tag}</Tag>
