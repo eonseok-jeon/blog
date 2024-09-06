@@ -31,13 +31,13 @@ export default function PostTemplate({ children, data }) {
 }
 
 export const Head = ({ data }) => {
-  const { title, subTitle, url, thumbnail } = data.mdx.frontmatter;
+  const { title, subTitle, tag, thumbnail } = data.mdx.frontmatter;
 
   return (
     <SEO
       title={title}
       description={subTitle}
-      pathname={url}
+      pathname={`${tag}-${title}`}
       ogImage={thumbnail}
     />
   );
@@ -233,7 +233,6 @@ export const query = graphql`
         subTitle
         date
         tag
-        url
         thumbnail {
           childImageSharp {
             gatsbyImageData(width: 1040)

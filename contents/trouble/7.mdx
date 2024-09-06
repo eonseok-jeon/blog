@@ -3,7 +3,6 @@ title: '빌드 최적화 해보기'
 subTitle: 'lottie-react 라이브러리 뜯어보기'
 date: '2024-08-25'
 tag: 'troubleshooting'
-url: 'troubleshooting-7'
 thumbnail: './imgs/7/1.png'
 thumbnail_alt: '공사차량 모습'
 ---
@@ -51,7 +50,7 @@ filename에 경로와 이름을 설정해주었다. 해당 파일이 GitHub에 �
 `open`을 true로 두어 build 완료 시 해당 html이 자동으로 열리도록 하였다. 매번 창을 열기 귀찮기도 했고 bundle size를 고려하면서 개발을 했는지 매번 체크해 주고 싶었기 때문이다.
 `gzip size`와 `bortli size`도 보고 싶어서 true로 설정해줬다.
 
-더 많은 option들은 [여기서](https://www.npmjs.com/package/rollup-plugin-visualizer#options) 볼 수 있다.
+더 많은 option들은 [rollup plugin visualizer options](https://www.npmjs.com/package/rollup-plugin-visualizer#options)애서 볼 수 있다.
 
 # 분석
 
@@ -250,7 +249,7 @@ _build 결과_
 ## lottie file 용량 줄이기
 
 조금이라도 더 번들 크기를 감소시키기 위해 lottie file의 용량을 줄여보기로 하였다.
-사이트는 [여기](https://www.lottiemizer.com/ko/)를 이용해줬다.
+[lottie image 최적화 사이트](https://www.lottiemizer.com/ko/)를 이용해줬다.
 
 ![lottie file 용량 줄인 후 build 결과](./imgs/7/12.png)
 
