@@ -9,6 +9,7 @@ module.exports = {
     ogImage: './src/shared/assets/imgOg.png',
   },
   plugins: [
+    'gatsby-plugin-sitemap',
     'gatsby-plugin-emotion',
     {
       resolve: `gatsby-plugin-manifest`,
