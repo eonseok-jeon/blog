@@ -10,8 +10,8 @@ function TableOfContents({ toc }) {
     <TOCWrapper>
       {toc.map(({ items, url, title }, i) => (
         <TOCItem key={`${url}${i}}`}>
-          <Link to={`/posts/${url}`}>{title}</Link>
-          {!!items && <TableOfContents toc={items} />}
+          {title && <Link to={`${url}`}>{title}</Link>}
+          {items && <TableOfContents toc={items} />}
         </TOCItem>
       ))}
     </TOCWrapper>
