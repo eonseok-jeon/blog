@@ -44,9 +44,9 @@ export const Head = ({ data }) => {
 };
 
 const PostArticle = styled.article`
-  max-width: 104rem;
+  max-width: 88rem;
   margin: 0 auto;
-  padding: 7%;
+  padding: 2%;
 `;
 
 const Title = styled.h1`
