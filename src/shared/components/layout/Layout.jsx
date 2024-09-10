@@ -60,6 +60,14 @@ const Div = styled.div`
 `;
 
 const Main = styled.main`
-  margin: 0 auto;
+  display: flex;
+  justify-content: end;
+  width: 100%;
   max-width: 144rem;
+  margin: 0 auto;
+
+  /* 1110px */
+  @media screen and (max-width: 69.375em) {
+    justify-content: center;
+  }
 `;

@@ -3,10 +3,56 @@ import Layout from '../shared/components/layout/Layout';
 import SEO from '../shared/components/SEO';
 import { MDXProvider } from '@mdx-js/react';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
+
+function TableOfContents({ toc }) {
+  return (
+    <TOCWrapper>
+      {toc.map(({ items, url, title }, i) => (
+        <TOCItem key={`${url}${i}}`}>
+          <Link to={`/posts/${url}`}>{title}</Link>
+          {!!items && <TableOfContents toc={items} />}
+        </TOCItem>
+      ))}
+    </TOCWrapper>
+  );
+}
+
+const TOCWrapper = styled.ol`
+  color: ${({ theme }) => theme.lightText};
+  list-style: none;
+
+  li li {
+    padding-left: 3rem;
+  }
+
+  li:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+const TOCItem = styled.li`
+  margin-bottom: 0.2rem;
+
+  a {
+    display: inline-block;
+    width: 100%;
+    padding: 0.2rem;
+    border-radius: 5px;
+    word-break: break-all;
+    word-wrap: break-word;
+    transition: all 0.1s ease;
+
+    :hover {
+      color: ${({ theme }) => theme.background};
+      background-color: ${({ theme }) => theme.reverseBackground};
+    }
+  }
+`;
 
 /** 포스트 템플릿 */
 export default function PostTemplate({ children, data }) {
+  const toc = data.mdx.tableOfContents;
   const { title, subTitle, date, tag, thumbnail, thumbnail_alt } =
     data.mdx.frontmatter;
   const featuredImg = getImage(thumbnail?.childImageSharp?.gatsbyImageData);
@@ -25,6 +71,11 @@ export default function PostTemplate({ children, data }) {
             <MDXProvider>{children}</MDXProvider>
           </Content>
         </PostArticle>
+        <Aside>
+          <TOCNav>
+            <TableOfContents toc={toc.items} />
+          </TOCNav>
+        </Aside>
       </Layout>
     </>
   );
@@ -43,9 +94,34 @@ export const Head = ({ data }) => {
   );
 };
 
+const Aside = styled.aside`
+  position: relative;
+  top: 0;
+  right: 0;
+  width: 20%;
+  max-width: 30rem;
+  padding-top: 15rem;
+  padding-right: 2rem;
+  border-radius: 10px;
+
+  /* 1110px */
+  @media screen and (max-width: 69.375em) {
+    display: none;
+  }
+`;
+
+const TOCNav = styled.nav`
+  position: sticky;
+  width: 100%;
+  top: 15rem;
+  left: 0;
+  padding: 0 1.5rem;
+  border-left: ${({ theme }) => `1px solid ${theme.lightText}`};
+`;
+
 const PostArticle = styled.article`
+  position: relative;
   max-width: 88rem;
-  margin: 0 auto;
   padding: 2%;
 `;
 
@@ -228,6 +304,7 @@ const Content = styled.article`
 export const query = graphql`
   query ($id: String) {
     mdx(id: { eq: $id }) {
+      tableOfContents
       frontmatter {
         title
         subTitle
