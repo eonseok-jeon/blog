@@ -43,7 +43,7 @@ export default function Layout({ children, isLanding = false }) {
             <DarkMode />
             <Header />
             <Div>
-              <Main>{children}</Main>
+              <Main isLanding={isLanding}>{children}</Main>
             </Div>
             {!isLanding && <Footer />}
           </ThemeProvider>
@@ -61,7 +61,7 @@ const Div = styled.div`
 
 const Main = styled.main`
   display: flex;
-  justify-content: end;
+  justify-content: ${({ isLanding }) => (isLanding ? 'center' : 'end')};
   width: 100%;
   max-width: 144rem;
   margin: 0 auto;
