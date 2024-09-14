@@ -114,10 +114,18 @@ const Aside = styled.aside`
 const TOCNav = styled.nav`
   position: sticky;
   width: 100%;
+  max-height: calc(100vh - 23rem);
   top: 15rem;
   left: 0;
   padding: 0 1.5rem;
   border-left: ${({ theme }) => `1px solid ${theme.lightText}`};
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const PostArticle = styled.article`
