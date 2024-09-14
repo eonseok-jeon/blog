@@ -208,6 +208,12 @@ const Content = styled.article`
     }
   }
 
+  a.anchor {
+    &::after {
+      display: none;
+    }
+  }
+
   p:has(> a:first-child + a) {
     display: flex;
     flex-direction: column;
