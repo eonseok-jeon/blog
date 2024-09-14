@@ -139,24 +139,25 @@ const SubTitle = styled.p`
 
 const Content = styled.article`
   h1 {
-    margin: 22.4rem 0 2rem;
-    background-color: ${({ theme }) => theme.h1Background};
+    margin: 13rem 0 2rem;
     border-radius: 1rem;
-    padding: 0.5rem 1rem;
+    padding: 10rem 1rem 0.5rem;
     font-size: 3.6rem;
     font-weight: 700;
     line-height: 1.25;
   }
 
   h2 {
-    margin: 6.4rem 0 2rem;
+    margin: 2rem 0;
+    padding-top: 10rem;
     font-size: 2.8rem;
     font-weight: 700;
     line-height: 1.25;
   }
 
   h3 {
-    margin: 3.2rem 0 2rem;
+    margin-bottom: 2rem;
+    padding-top: 10rem;
     font-size: 2.2rem;
     font-weight: 700;
     line-height: 1.25;
