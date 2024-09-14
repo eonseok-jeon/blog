@@ -39,13 +39,14 @@ const TOCItem = styled.li`
     width: 100%;
     padding: 0.2rem;
     border-radius: 5px;
+    color: ${({ theme }) => theme.lightText};
     word-break: break-all;
     word-wrap: break-word;
     transition: all 0.1s ease;
 
     :hover {
-      color: ${({ theme }) => theme.background};
-      background-color: ${({ theme }) => theme.reverseBackground};
+      color: ${({ theme }) => theme.text};
+      transform: scale(1.05);
     }
   }
 `;
