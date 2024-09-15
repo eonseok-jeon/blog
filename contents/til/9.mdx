@@ -55,7 +55,7 @@ Google의 검색 작동 방식을 보면 아래와 같은 순서로 적용된다
 
 Google 검색 Essentials란 웹 기반 콘텐츠가 Google 검색에서 표시되고 좋은 실적을 내도록 하는 핵심 요소이다. 이는 3가지로 구성된다.
 
-### **기술 요구사항**
+### 기술 요구사항
 
 Google을 기술 요구사항을 아래와 같이 정의한다.
 
@@ -70,7 +70,7 @@ Google을 기술 요구사항을 아래와 같이 정의한다.
 
 2. 페이지가 작동함해야 함
 
-Google은 [HTTP `200 (success)` 상태 코드](https://developers.google.com/search/docs/crawling-indexing/http-network-errors?hl=ko#2xx-success)로 게재되는 페이지만 색인을 생성한다.
+Google은 [HTTP 200 (success) 상태 코드](https://developers.google.com/search/docs/crawling-indexing/http-network-errors?hl=ko#2xx-success)로 게재되는 페이지만 색인을 생성한다.
 
 3. 페이지에 색인 생성 가능한 콘텐츠가 있어야 함
 
@@ -177,9 +177,14 @@ _개별 포스트 페이지의 메타 데이터_
 추가로 링크 자체를 넣는 건 추천하지 않으며, 긴 문장보단 짧은 문구로 적는 것을 추천하고 있다.
 
 ```tsx
-https://stylelint.io/user-guide/options/ // x
-[Stylelint 공식 문서의 user-guide 중 options애 댜헌 설명을 담은 페이지입니다.](https://stylelint.io/user-guide/options/) // x
-[Stylelint options에 대한 설명 페이지](https://stylelint.io/user-guide/options/) // o
+// bad
+https://stylelint.io/user-guide/options/
+
+// bad
+[Stylelint 공식 문서의 user-guide 중 options애 대한 설명을 담은 페이지입니다.](https://stylelint.io/user-guide/options/)
+
+// good
+[Stylelint options에 대한 설명 페이지](https://stylelint.io/user-guide/options/)
 ```
 
 모든 link에 대해 앵커 텍스트를 수정한 후 다시 lighthouse 돌리니 100점이 된 걸 확인할 수 있었다.
