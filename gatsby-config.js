@@ -8,6 +8,7 @@ module.exports = {
     description: `FE 개발자 전언석의 테크 블로그`,
   },
   plugins: [
+    'gatsby-plugin-webpack-bundle-analyser-v2',
     'gatsby-plugin-sitemap',
     'gatsby-plugin-emotion',
     {
