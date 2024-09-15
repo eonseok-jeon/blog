@@ -6,7 +6,6 @@ module.exports = {
     title: `eonseok blog`,
     siteUrl: `https://eonseok.site/`,
     description: `FE 개발자 전언석의 테크 블로그`,
-    ogImage: './src/shared/assets/imgOg.png',
   },
   plugins: [
     'gatsby-plugin-sitemap',
@@ -51,6 +50,13 @@ module.exports = {
       options: {
         name: `contents`,
         path: `${__dirname}/contents`,
+      },
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: `assets`,
+        path: `${__dirname}/src/assets`,
       },
     },
     {

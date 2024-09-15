@@ -17,7 +17,11 @@ export default function SEO({
           title
           description
           siteUrl
-          ogImage
+        }
+      }
+      ogDefaultImage: file(relativePath: { eq: "imgOg.png" }) {
+        childImageSharp {
+          gatsbyImageData(width: 800, height: 400, quality: 80)
         }
       }
     }
@@ -26,7 +30,7 @@ export default function SEO({
   const defaultTitle = data.site.siteMetadata.title;
   const defaultDescription = data.site.siteMetadata.description;
   const siteUrl = data.site.siteMetadata.siteUrl;
-  const defaultOgImage = data.site.siteMetadata.ogImage;
+  const defaultOgImage = getSrc(data.ogDefaultImage);
 
   const seo = {
     title: title || defaultTitle,
