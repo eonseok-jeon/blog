@@ -150,7 +150,7 @@ const Content = styled.article`
   h1 {
     margin: 13rem 0 2rem;
     border-radius: 1rem;
-    padding: 10rem 1rem 0.5rem;
+    padding: 10rem 0rem 0.5rem;
     font-size: 3.6rem;
     font-weight: 700;
     line-height: 1.25;
