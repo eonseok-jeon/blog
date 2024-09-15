@@ -1,5 +1,6 @@
 import React from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
+import { getSrc } from 'gatsby-plugin-image';
 
 /** SEO */
 export default function SEO({
@@ -31,7 +32,7 @@ export default function SEO({
     title: title || defaultTitle,
     description: description || defaultDescription,
     url: `${siteUrl}${pathname || ``}`,
-    ogImage: ogImage || defaultOgImage,
+    ogImage: getSrc(ogImage) || defaultOgImage,
   };
 
   return (
