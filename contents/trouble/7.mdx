@@ -389,6 +389,12 @@ const NoMore = lazy(() => import('views/ErrorPage/components/NoMore'));
 그 결과 975.25kb 였던 chunk를 794.31kb와 그 외의 chunk들로 분리할 수가 있었다.
 또한 최종적으로 최적화 전 6.11s 걸리던 빌드 시간을 4.99s로 1.2s 줄일 수 있었다.
 
+![lazy loading 적용 후 build 화면](./imgs/7/23.png)
+_번들 최적화 전 Lighthouse 결과_
+
+![lazy loading 적용 후 build 화면](./imgs/7/24.png)
+_번들 최적화 후 Lighthouse 결과_
+
 # 참고자료
 
 [Splitting vendor chunk with Vite and loading them async - DEV Community](https://dev.to/tassiofront/splitting-vendor-chunk-with-vite-and-loading-them-async-15o3)
