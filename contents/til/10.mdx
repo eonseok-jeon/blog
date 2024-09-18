@@ -293,6 +293,44 @@ const res = await instance('/url', {
 
 정상적으로 요청이 들어가고 있음을 확인할 수 있었다.
 
+### form data 전송
+
+한 가지 문제는 formData를 보낼 때는 application/json 타입이 아니라 JSON.strignify()로 변환을 해주면 안 되었다.
+따라서 보내는 data가 formData인지 아닌지 판단하는 로직을 추가해주었다.
+
+```tsx
+interface FetchOptions extends Omit<RequestInit, 'body'> {
+  // ...
+  headers?: Partial<Record<StandardHeaders, string>>;
+}
+
+const instance = async (url: string, options: FetchOptions = {}) => {
+  const { headers = {}, ...rest } = options;
+  // ...
+
+  if (!(body instanceof FormData)) {
+    headers['Content-Type'] = 'application/json';
+  }
+
+  const response = await fetch(`${baseURL}${urlWithParams}`, {
+    headers: {
+      Authorization: `Bearer ${soptApplyAccessToken}`,
+      ...headers,
+    },
+    body: body instanceof FormData ? body : JSON.stringify(body),
+    ...rest,
+  });
+  // ...
+};
+```
+
+formData일 경우 자동으로 `content-type = multipart/form-data`이 들어감으로 formData가 아닌 경우에만 application/json을 추가해주면 됐다.
+이 후 body 데이터 부분 또한 formData가 아닐 때만 JSON.stringify 해주었다.
+
+![form data 전송 api 성공 화면](./imgs/10/24.png)
+
+form data 요청이 정상적으로 보내진 걸 확인할 수 있었다.
+
 ## 에러를 자동으로 예외 처리해준다
 
 api 호출에 성공하지 않았으면 error를 throw 해줘야 한다. 이때 error status 코드에 따른 로직을 달리하기 위해 status도 error에 같이 넘겨줘야 한다. 하지만 Error에는 status가 없어 CustomError를 만들어줬다. message는 super를 이용하여 Error의 생성자를 그대로 이용해 주었고 status만 추가해주었다.
@@ -397,11 +435,209 @@ _api 요청 취소에 따른 error 발생_
 ![IE의 공식적인 종료 선언](./imgs/10/15.png)
 _IE 이제 종료되었는데 어디서 테스트 하지,,_
 
-… 아직 작업 중이라 곧 이어서 작성 예정
+해당 polyfill은 [whatwg-fetch](https://github.com/JakeChampion/fetch?tab=readme-ov-file)라는 라이브러리로 이미 구현되어 있어서 이를 바로 적용해주면 됐다. 심지어 weekly downloads 수가 천 만이 넘는 굉장히 인기있는 라이브러리였다.
+
+사용법은 아주 간단했다. fetch를 사용하는 곳에 `import 'whatwg-fetch';`만 넣어주면 자동으로 크로스 브라우징을 지원해준다.
+
+build를 돌린 뒤 해당 라이브러리가 어느 정도의 사이즈를 잡아먹는지 체크해보았다. 17.81KB로 axios를 사용하는 것보다 훨씬 낮은 수준이었다.
+
+![bundle visualizer에서 whatwg-fetch가 17.81KB의 번들 사이즈를 차지함으로 보여주고 있다.](./imgs/10/16.png)
+
+사실 Promise 역시 IE 등에선 지원을 안 하고 있어 이에 대한 polyfill 설정도 필요했다.
+
+![Can I Use - Promise](./imgs/10/17.png)
+
+whatwg-fetch 공식문서에서 [taylorhakes/promise-polyfill](https://github.com/taylorhakes/promise-polyfill)을 추천해주었다. 이 역시도 사용법은 아주 간단했다. whatwg-fetch와 마찬가지로 그저 `import 'promise-polyfill/src/polyfill';`를 추가해주면 됐다. 이는 9.52KB의 번들 사이즈를 가지고 있었다.
+
+![bundle visualizer에서 promise-polyfill이 9.52KB의 번들 사이즈를 차지함으로 보여주고 있다.](./imgs/10/18.png)
+
+슬프게도 URLSearchParams 또한 IE에서 지원이 되지 않았다.
+이 역시도 [polyfill 라이브러리](https://www.npmjs.com/package/url-search-params-polyfill)가 존재했고 사용법도 간단했다. 그저 `import 'url-search-params-polyfill';`를 추가해주면 됐다.
+다만 body에 URLSearchParams를 이용하여 data를 넣어줄 경우 header에 수동으로 `headers.set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');`를 해줘야 했다.
+그래도 내 코드에선 이를 사용할 일이 없었다.
+
+![polyfill 라이브러리의 번들 사이즈 차지 비율](./imgs/10/25.png)
+_이 친구는 11.66KB를 차지했다._
+
+참고자료
+[url-search-params-polyfill: known issue](https://www.npmjs.com/package/url-search-params-polyfill#known-issues)
+[Can I Use | URLSearchParams](https://caniuse.com/?search=urlsearchparams)
 
 ## interceptors
 
+현재 axios를 이용하여 request에 대한 interceptors를 이용하고 있었다. response는 query client에서 전역적으로 처리하고 있어서 불필요했다. fetch 같은 기능을 사용할 수 있도록 구현했다. 이미 만들어 놓은 instance 안에 해당 로직을 추가해주면 됐다.
+
+```tsx
+const instance = async (url: string, options: FetchOptions = {}) => {
+  const { headers = {}, ...rest } = options;
+
+  const soptApplyAccessToken = localStorage.getItem('soptApplyAccessToken');
+  const soptApplyAccessTokenExpiredTime = new Date(localStorage.getItem('soptApplyAccessTokenExpiredTime') || '');
+  const isValidDate = soptApplyAccessTokenExpiredTime.toDateString() !== 'Invalid Date';
+  const afterRecruiting = isBefore(soptApplyAccessTokenExpiredTime, new Date());
+
+  if (!soptApplyAccessToken || !isValidDate || !soptApplyAccessTokenExpiredTime || afterRecruiting) {
+    localStorage.removeItem('soptApplyAccessToken');
+    localStorage.removeItem('soptApplyAccessTokenExpiredTime');
+
+    window.location.href = '/';
+
+    return;
+  }
+
+  headers.Authorization = soptApplyAccessToken ? `Bearer ${soptApplyAccessToken}` : '';
+
+  const response = await fetch(`${baseURL}${urlWithParams}`, {
+    headers: {
+      ...headers,
+      // ...
+```
+
+access token이 있을 때만 authorization에 추가해준 뒤 headers에 넣어주었다.
+
+하지만 해당 instance를 공통으로 사용하고 있었는데 회원가입과 같이 token이 필요없는 api 요청 시에도 위의 로직으로 인해 계속 로그인 페이지로 자동 이동되었다.
+따라서 token이 필요한 경우와 아닌 경우를 구분해 주어야 했다. skipAuth란 속성을 하나 만든 뒤 skipAuth가 false 일 때만 access token 로직이 실행되게 하였다.
+
+```tsx
+interface FetchOptions extends Omit<RequestInit, 'body'> {
+  // ...
+  skipAuth?: boolean;
+}
+
+const instance = async (url: string, options: FetchOptions = {}) => {
+  const { headers = {}, skipAuth = false, ...rest } = options;
+  // ...
+
+  if (!skipAuth) {
+    // access token 로직
+
+    headers['Authorization'] = `Bearer ${soptApplyAccessToken}`;
+  }
+
+  const response = await fetch(`${baseURL}${urlWithParams}`, {
+    headers,
+    ...rest,
+  });
+```
+
+요청을 보내니 token이 필요한 api는 headers에 Authorization이 잘 들어간 것을 확인할 수 있었다.
+
+![](./imgs/10/19.png)
+_token이 필요한 api 요청_
+
+![](./imgs/10/20.png)
+_token이 필요 없는 api 요청_
+
+# 최종 코드
+
+```tsx
+import 'whatwg-fetch';
+import 'promise-polyfill/src/polyfill';
+import 'url-search-params-polyfill';
+git;
+import { isBefore } from 'date-fns/isBefore';
+
+const baseURL = import.meta.env.VITE_BASE_URL;
+
+type StandardHeaders =
+  | 'Content-Type'
+  | 'Authorization'
+  | 'Accept'
+  | 'Cache-Control'
+  | 'User-Agent';
+type RequestMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
+export class CustomError extends Error {
+  status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.status = status;
+  }
+}
+
+interface FetchOptions extends Omit<RequestInit, 'body'> {
+  method?: RequestMethod;
+  headers?: Partial<Record<StandardHeaders, string>>;
+  body?: Record<string, unknown> | FormData;
+  params?: Record<string, any>;
+  skipAuth?: boolean;
+}
+
+const instance = async (url: string, options: FetchOptions = {}) => {
+  const { body, params, headers = {}, skipAuth = false, ...rest } = options;
+  const urlWithParams = params
+    ? `${url}?${new URLSearchParams(params).toString()}`
+    : url;
+
+  if (!skipAuth) {
+    const soptApplyAccessToken = localStorage.getItem('soptApplyAccessToken');
+    const soptApplyAccessTokenExpiredTime = new Date(
+      localStorage.getItem('soptApplyAccessTokenExpiredTime') || '',
+    );
+    const isValidDate =
+      soptApplyAccessTokenExpiredTime.toDateString() !== 'Invalid Date';
+    const afterRecruiting = isBefore(
+      soptApplyAccessTokenExpiredTime,
+      new Date(),
+    );
+
+    if (
+      !soptApplyAccessToken ||
+      !isValidDate ||
+      !soptApplyAccessTokenExpiredTime ||
+      afterRecruiting
+    ) {
+      localStorage.removeItem('soptApplyAccessToken');
+      localStorage.removeItem('soptApplyAccessTokenExpiredTime');
+
+      window.location.href = '/';
+
+      return;
+    }
+
+    headers['Authorization'] = `Bearer ${soptApplyAccessToken}`;
+  }
+
+  if (!(body instanceof FormData)) {
+    headers['Content-Type'] = 'application/json';
+  }
+
+  const response = await fetch(`${baseURL}${urlWithParams}`, {
+    headers,
+    body: body instanceof FormData ? body : JSON.stringify(body),
+    ...rest,
+  });
+
+  if (!response.ok) {
+    const errMsg = await response.json();
+    throw new CustomError(errMsg.userMessage, response.status);
+  }
+
+  return response.json();
+};
+
+export default instance;
+```
+
+# 얼마나 개선이 되었는가?
+
+![](./imgs/10/21.png)
+_axios를 사용할 때 번들 사이즈_
+
+axios를 사용할 때는 총 2.25M의 번들 사이즈를 가지고 있었다.
+
+![](./imgs/10/22.png)
+_axios를 fetch로 migration 후 번들 사이즈_
+
+개선 후 2.21MB의 번들 사이즈로 총 약 40KB 줄일 수 있었다. 만약 polyfill을 사용하지 않는다면 약 30KB 더 줄일 수가 있다.
+
+![](./imgs/10/23.png)
+_polyfill 제거했을 때 번들 사이즈_
+
 # 참고 자료
 
+[You Don't Need Axios](https://dev.to/ngfizzy/you-dont-need-axios-34j9)
 [Axios vs. fetch(): Which is best for making HTTP requests?](https://blog.logrocket.com/axios-vs-fetch-best-http-requests/)
 [Axios vs Fetch | Which is Best for Beginners?](https://www.meticulous.ai/blog/fetch-vs-axios)
+[Intercepting JavaScript Fetch API requests and responses](https://blog.logrocket.com/intercepting-javascript-fetch-api-requests-responses/#node)
