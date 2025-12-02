@@ -1,0 +1,30 @@
+name: PR Analyzer with GPT (JS)
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  analyze_and_comment:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # PR에 코멘트를 달고 업데이트하기 위해 이 권한이 필요합니다.
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install @octokit/core @actions/github @actions/core openai
+
+      - name: Run PR analysis script
+        id: pr-analyzer
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node .github/scripts/pr_analyzer.js
